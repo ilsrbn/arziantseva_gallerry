@@ -41,8 +41,16 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast',
+    'cookie-universal-nuxt'
   ],
+  toast: {
+    position: 'top-center',
+    duration: 2000,
+    theme: 'bubble',
+    keepOnHover: true
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

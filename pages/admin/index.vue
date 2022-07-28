@@ -1,82 +1,87 @@
 <template>
-  <v-row>
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <v-card>
-            <v-card-title>
-              Filters
-            </v-card-title>
-            <v-card-actions>
-              <v-btn color="primary" @click.stop="dialog = true">
-                <span class="mr-1">Upload photos</span><v-icon>mdi-upload</v-icon>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-col v-for="idx in 3" :key="idx" cols="12" sm="6" md="4">
-      <v-row v-for="i in Math.ceil((Math.random() * 5))" :key="i">
-        <v-col>
-          <LazyImage />
-        </v-col>
-      </v-row>
-    </v-col>
-    <v-dialog v-model="dialog">
-      <v-card>
-        <v-card-title>Upload photos</v-card-title>
-        <v-card-text v-if="images">
-          <v-container>
-            <v-row>
-              <v-col v-for="(img, id) in images" :key="id" cols="3">
-                <v-img :src="img" />
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-file-input
-            v-model="files"
-            accept="image/*"
-            label="Images"
-            multiple
-            chips
-            @change="addPreloadedPhotos()"
-          />
-        </v-card-actions>
-      </v-card>
+  <div>
+    <v-row>
+      <v-col>
+        <v-sheet rounded="xl" class="px-2 py-2">
+          <v-btn class="ml-auto" outlined rounded color="primary" @click.stop="dialog = true">
+            <v-icon left>
+              mdi-upload
+            </v-icon> UPLOAD
+          </v-btn>
+        </v-sheet>
+      </v-col>
+
+      <v-col cols="12" class="masonry__scrollable">
+        <masonry
+          v-show="loading"
+          class="masonry"
+          :cols="{
+            default: 4,
+            2000: 3,
+            1200: 2,
+            768: 1
+          }"
+          :gutter="{
+            default: 20, 420: 16
+          }"
+        >
+          <LazyImage v-for="(image, i) in images" :key="i" :image="image" @removeImage="removeImage" />
+        </masonry>
+      </v-col>
+    </v-row>
+
+    <v-dialog v-model="dialog" max-width="1500">
+      <UploadImageModal @showImages="showImages" />
     </v-dialog>
-  </v-row>
+  </div>
 </template>
 
 <script>
-import LazyImage from '@/components/LazyImage'
+import LazyImage from '~/components/admin/LazyImage'
+import UploadImageModal from '~/components/admin/UploadImageModal'
 export default {
   name: 'MainDashboardPage',
   components: {
+    UploadImageModal,
     LazyImage
   },
   layout: 'dashboard',
   data: () => ({
     dialog: false,
-    files: [],
+    loading: true,
     images: []
   }),
-  created () {
-    console.log(4 % 3, 4 / 3)
-    console.log(5 % 3, 5 / 3)
-    console.log(6 % 3, 6 / 3)
+  mounted () {
+    const masonry$ = document.querySelector('.masonry')
+    const masonryPosFromTop = this.getOffset(masonry$).top
+    const viewportHeight = window.innerHeight
+    const masonryWrapperHeight = viewportHeight - masonryPosFromTop - 12
+    const masonryScrollable$ = document.querySelector('.masonry__scrollable')
+    masonryScrollable$.style.maxHeight = `${masonryWrapperHeight}px`
+    masonryScrollable$.style.height = `${masonryWrapperHeight}px`
+    this.loading = false
   },
   methods: {
-    addPreloadedPhotos () {
-      const files = this.files
-      const imgs = []
-      files.forEach((file) => {
-        imgs.push(URL.createObjectURL(file))
-      })
-      this.images = imgs
+    removeImage (id) {
+      this.images = this.images.filter(image => image.id !== id)
+      this.$toast.info('Image was deleted successfully')
+    },
+    showImages (images) {
+      this.dialog = false
+      this.images = images
+    },
+    getOffset (el) {
+      const rect = el.getBoundingClientRect()
+      return {
+        left: rect.left + window.scrollX,
+        top: rect.top + window.scrollY
+      }
     }
   }
 }
 </script>
+<style scoped lang="scss">
+.masonry__scrollable {
+  overflow-y: scroll;
+}
+</style>

@@ -3,9 +3,9 @@
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
+      clipped
       app
+      class="elevation-4"
     >
       <v-list>
         <v-list-item
@@ -36,29 +36,21 @@
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
-      <!--      <v-btn-->
-      <!--        icon-->
-      <!--        @click.stop="clipped = !clipped"-->
-      <!--      >-->
-      <!--        <v-icon>mdi-application</v-icon>-->
-      <!--      </v-btn>-->
-      <!--      <v-btn-->
-      <!--        icon-->
-      <!--        @click.stop="fixed = !fixed"-->
-      <!--      >-->
-      <!--        <v-icon>mdi-minus</v-icon>-->
-      <!--      </v-btn>-->
       <v-toolbar-title v-text="title" />
       <v-spacer />
 
       <v-btn class="mr-2" color="accent" @click="toHome()">
-        <span class="mr-1">Back to client site</span>
-        <v-icon>mdi-exit-to-app</v-icon>
+        Back to client site
+        <v-icon right>
+          mdi-exit-to-app
+        </v-icon>
       </v-btn>
 
       <v-btn color="red" @click="logout()">
-        <span class="mr-1">Logout</span>
-        <v-icon>mdi-logout</v-icon>
+        Logout
+        <v-icon right>
+          mdi-logout
+        </v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -66,29 +58,6 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <!--    <v-navigation-drawer-->
-    <!--      v-model="rightDrawer"-->
-    <!--      :right="right"-->
-    <!--      temporary-->
-    <!--      fixed-->
-    <!--    >-->
-    <!--      <v-list>-->
-    <!--        <v-list-item @click.native="right = !right">-->
-    <!--          <v-list-item-action>-->
-    <!--            <v-icon light>-->
-    <!--              mdi-repeat-->
-    <!--            </v-icon>-->
-    <!--          </v-list-item-action>-->
-    <!--          <v-list-item-title>Switch drawer (click me)</v-list-item-title>-->
-    <!--        </v-list-item>-->
-    <!--      </v-list>-->
-    <!--    </v-navigation-drawer>-->
-    <!--    <v-footer-->
-    <!--      :absolute="fixed"-->
-    <!--      app-->
-    <!--    >-->
-    <!--      <span>&copy; {{ new Date().getFullYear() }}</span>-->
-    <!--    </v-footer>-->
   </v-app>
 </template>
 
@@ -99,7 +68,7 @@ export default {
   data () {
     return {
       clipped: true,
-      drawer: true,
+      drawer: null,
       fixed: true,
       items: [
         {
@@ -118,6 +87,10 @@ export default {
       rightDrawer: false,
       title: 'Arziantseva dashboard'
     }
+  },
+  mounted () {
+    const width = window.innerWidth
+    this.drawer = width >= 768
   },
   methods: {
     logout () {

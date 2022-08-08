@@ -1,17 +1,17 @@
 <template>
   <div>
-    <v-row>
-      <v-col>
-        <v-sheet rounded="xl" class="px-2 py-2">
+    <scrollable-layout>
+      <template #header>
+        <v-sheet rounded="xl" class="pa-2">
           <v-btn class="ml-auto" outlined rounded color="primary" @click.stop="dialog = true">
             <v-icon left>
               mdi-upload
             </v-icon> UPLOAD
           </v-btn>
         </v-sheet>
-      </v-col>
+      </template>
 
-      <v-col cols="12" class="masonry__scrollable">
+      <template #default>
         <masonry
           v-show="loading"
           class="masonry"
@@ -27,8 +27,8 @@
         >
           <LazyImage v-for="(image, i) in images" :key="i" :image="image" @removeImage="removeImage" />
         </masonry>
-      </v-col>
-    </v-row>
+      </template>
+    </scrollable-layout>
 
     <v-dialog v-model="dialog" max-width="1500">
       <UploadImageModal @showImages="showImages" />
@@ -39,9 +39,11 @@
 <script>
 import LazyImage from '~/components/admin/LazyImage'
 import UploadImageModal from '~/components/admin/UploadImageModal'
+import ScrollableLayout from '@/components/admin/ScrollableLayout'
 export default {
   name: 'MainDashboardPage',
   components: {
+    ScrollableLayout,
     UploadImageModal,
     LazyImage
   },
@@ -51,16 +53,7 @@ export default {
     loading: true,
     images: []
   }),
-  mounted () {
-    const masonry$ = document.querySelector('.masonry')
-    const masonryPosFromTop = this.getOffset(masonry$).top
-    const viewportHeight = window.innerHeight
-    const masonryWrapperHeight = viewportHeight - masonryPosFromTop - 12
-    const masonryScrollable$ = document.querySelector('.masonry__scrollable')
-    masonryScrollable$.style.maxHeight = `${masonryWrapperHeight}px`
-    masonryScrollable$.style.height = `${masonryWrapperHeight}px`
-    this.loading = false
-  },
+
   methods: {
     removeImage (id) {
       this.images = this.images.filter(image => image.id !== id)
@@ -69,19 +62,7 @@ export default {
     showImages (images) {
       this.dialog = false
       this.images = images
-    },
-    getOffset (el) {
-      const rect = el.getBoundingClientRect()
-      return {
-        left: rect.left + window.scrollX,
-        top: rect.top + window.scrollY
-      }
     }
   }
 }
 </script>
-<style scoped lang="scss">
-.masonry__scrollable {
-  overflow-y: scroll;
-}
-</style>

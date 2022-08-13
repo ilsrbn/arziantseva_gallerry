@@ -14,11 +14,10 @@ export default {
   }),
   async mounted () {
     try {
-      const { data } = await this.$axios.$get('http://45.129.97.246/api/blog/posts/gallery')
+      const { data } = await this.$axios.$get('/blog/posts/gallery')
       this.posts = data
     } catch (e) {
-      this.$toast.error('Oops...\nSomething went wrong.\nPage will be refreshed automatically in 5 seconds')
-      this.$router.go()
+      this.$toast.error('Oops...\nSomething went wrong.')
     } finally {
       this.loading = false
     }

@@ -13,7 +13,6 @@
 
       <template #default>
         <masonry
-          v-show="loading"
           class="masonry"
           :cols="{
             default: 4,
@@ -25,7 +24,19 @@
             default: 20, 420: 16
           }"
         >
-          <LazyImage v-for="(image, i) in images" :key="i" :image="image" @removeImage="removeImage" />
+          <transition mode="out-in">
+            <div v-show="loading">
+              <v-skeleton-loader
+                v-for="i in 15"
+                :key="i"
+                :style="{ marginBottom: '20px' }"
+                type="image"
+              />
+            </div>
+            <div v-show="!loading">
+              <LazyImage v-for="(image, i) in images" :key="i" :image="image" @removeImage="removeImage" />
+            </div>
+          </transition>
         </masonry>
       </template>
     </scrollable-layout>
@@ -53,6 +64,19 @@ export default {
     loading: true,
     images: []
   }),
+
+  async created () {
+    try {
+      const { data } = await this.$axios.$get('/admin/blog/items')
+      // console.log(data)
+      this.images = data
+    } catch (e) {
+      this.$toast.error('Oops.. Please contact to devs')
+      console.log(e)
+    } finally {
+      this.loading = false
+    }
+  },
 
   methods: {
     removeImage (id) {

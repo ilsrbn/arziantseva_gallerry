@@ -40,7 +40,7 @@
             block
             x-large
             color="primary"
-            @click="handleUpload()"
+            @click="upload()"
           >
             Submit
           </v-btn>
@@ -60,19 +60,21 @@ export default {
     loading: false
   }),
   methods: {
-    handleUpload () {
+    async upload () {
       this.loading = true
-      setTimeout(() => {
-        this.upload()
-      }, 2000
-      )
-    },
-    upload () {
-      this.loading = false
-      this.$emit('showImages', this.images)
-      this.$toast.success('Images uploaded successfully!')
-      this.images = []
-      this.files = []
+      try {
+        for (let i = 0; i < this.files.length; i++) {
+          // const file = this.files[i]
+          await this.$axios.$post('/')
+        }
+        this.loading = false
+        this.$toast.success('Images uploaded successfully!')
+        this.images = []
+        this.files = []
+      } catch (e) {
+        console.log(e)
+        this.$toast.error('Oooops... Something went wrong')
+      }
     },
     addPreloadedPhotos () {
       const files = this.files

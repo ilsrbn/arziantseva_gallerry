@@ -3,13 +3,13 @@
     <v-row>
       <v-col>
         <!-- Контент помещенный в слот header будет оставаться всегда наверху -->
-        <slot name="header"></slot>
+        <slot name="header" />
       </v-col>
 
       <v-col cols="12" class="scrollable__container">
         <div class="scrollable__content">
           <!-- Контейнер в высоту не привысит высоту вьюпорта экрана и он будет скролиться -->
-          <slot></slot>
+          <slot />
         </div>
       </v-col>
     </v-row>

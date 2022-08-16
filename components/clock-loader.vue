@@ -20,7 +20,8 @@ export default {
 
 <style lang="scss" scoped>
 .clock-loader__wrapper {
-  position: sticky;
+  position: absolute;
+  z-index: 100;
   left: 0;
   top: 0;
   width: 100vw;

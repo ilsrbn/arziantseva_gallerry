@@ -23,7 +23,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/masonry.js', ssr: false }
+    { src: '~/plugins/masonry.js', ssr: false },
+    { src: '~/plugins/vue-select', ssr: true }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -34,7 +35,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/moment'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,6 +50,35 @@ export default {
     'cookie-universal-nuxt',
     '@nuxtjs/dotenv'
   ],
+  auth: {
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'token',
+          maxAge: 3600,
+          global: true
+          // type: 'Bearer'
+        },
+        refreshToken: {
+          property: 'token',
+          data: 'token',
+          maxAge: 60 * 60 * 24 * 30
+        },
+        user: {
+          property: false
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: '/auth/login', method: 'post' },
+          refresh: { url: '/auth/refresh', method: 'post' },
+          user: { url: '/auth/me', method: 'post' },
+          logout: { url: '/auth/logout', method: 'post' }
+        }
+        // autoLogout: false
+      }
+    }
+  },
   toast: {
     position: 'top-center',
     duration: 2000,

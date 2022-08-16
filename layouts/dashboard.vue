@@ -57,7 +57,7 @@
 <script>
 export default {
   name: 'DefaultLayout',
-  middleware: 'allowDashboard',
+  middleware: ['auth'],
   data () {
     return {
       clipped: true,
@@ -70,7 +70,12 @@ export default {
           to: '/admin'
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-view-gallery',
+          title: 'Gallery',
+          to: '/admin/gallery'
+        },
+        {
+          icon: 'mdi-post',
           title: 'Pages',
           to: '/admin/posts'
         }
@@ -87,9 +92,8 @@ export default {
   },
   methods: {
     logout () {
-      this.$cookies.remove('arziantseva_username')
-      this.$cookies.remove('auth_until')
-      this.$router.push('/')
+      this.$auth.logout()
+      this.toHome()
     },
     toHome () {
       this.$router.push('/')

@@ -3,7 +3,7 @@
     <h2 class="login__title">
       Login
     </h2>
-    <v-text-field v-model="username" :disabled="loading" label="Username" />
+    <v-text-field v-model="email" :disabled="loading" label="Email" />
     <v-text-field v-model="password" type="password" :disabled="loading" label="Password" />
     <v-btn
       :loading="loading"
@@ -23,7 +23,7 @@ export default {
   layout: 'auth',
   data: () => ({
     loading: false,
-    username: null,
+    email: null,
     password: null
   }),
   mounted () {
@@ -35,28 +35,34 @@ export default {
     }
   },
   methods: {
-    submit () {
+    async submit () {
       this.loading = true
-      const isMatch = this.compare(this.username, this.password)
-      if (!isMatch) {
-        this.$toast.error('Bad credentials provided')
+      try {
+        await this.$auth.loginWith('local', {
+          data: {
+            email: this.email,
+            password: this.password
+          }
+        })
+        this.$toast.success('Successfully logged in!')
+        this.$router.push('/admin')
+      } catch (e) {
+        // console.log(e.message)
+        this.$toast.error(e.message)
+        // const errors = e.response.data.errors
+        // for (const name in errors) {
+        //   errors[name].forEach(el => this.$toast.error(el))
+        // }
+      } finally {
         this.loading = false
-        return
       }
-      this.setUser()
-      this.$toast.success('Successfully logged in!')
-      this.$router.push('/admin')
-      this.loading = false
-    },
-    compare (u, p) {
-      return !!(u === 'admin' && p === '123456')
-    },
-    setUser () {
-      // const daysInMS = 60 * 60 * 24 * 1000
-      const minsInMS = 1000 * 60
-      this.$cookies.set('arziantseva_username', 'admin')
-      const until = Date.now() + minsInMS * 5
-      this.$cookies.set('auth_until', `${until}`)
+      // const isMatch = this.compare(this.username, this.password)
+      // if (!isMatch) {
+      //   this.$toast.error('Bad credentials provided')
+      //   this.loading = false
+      //   return
+      // }
+      // this.setUser()
     }
   }
 }

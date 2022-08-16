@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ClockLoader class="clockPreloader" :loading="loading" />
+    <ClockLoader :loading="loading" />
     {{ posts }}
   </div>
 </template>

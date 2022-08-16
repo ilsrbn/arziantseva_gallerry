@@ -11,7 +11,7 @@
 <script>
 export default {
   name: 'AuthLayout',
-  middleware: 'allowLogin'
+  middleware: ['guest']
 }
 </script>
 

@@ -4,7 +4,7 @@
       <v-sheet rounded="xl" class="pa-2">
         <v-row>
           <v-col>
-            <v-btn rounded color="primary">
+            <v-btn rounded color="green" elevation="5" @click="$router.push('/admin/gallery/new')">
               Create Category <v-icon right>
                 mdi-plus
               </v-icon>
@@ -12,7 +12,14 @@
           </v-col>
           <v-spacer />
           <v-col>
-            <v-text-field hide-details dense outlined rounded label="Search by name" />
+            <v-text-field
+              v-model="items.search"
+              hide-details
+              dense
+              outlined
+              rounded
+              label="Search"
+            />
           </v-col>
         </v-row>
       </v-sheet>
@@ -20,11 +27,10 @@
     <template #default>
       <v-data-table
         :loading="items.loading"
-        disable-filtering
-        disable-pagination
-        disable-sort
         :items="items.list"
+        multi-sort
         :headers="items.headers"
+        :search="items.search"
       >
         <template #[`item.brief_content`]="{ item }">
           <template v-if="!!item.brief_content">
@@ -41,6 +47,18 @@
         </template>
         <template #[`item.updated_at`]="{ item }">
           {{ formatDate($moment.utc(item.updated_at).local()) }}
+        </template>
+        <template #[`item.is_published`]="{ item }">
+          <template v-if="item.is_published.toString() === '1'">
+            <v-chip color="primary">
+              Posted
+            </v-chip>
+          </template>
+          <template v-else>
+            <v-chip outlined>
+              Hidden
+            </v-chip>
+          </template>
         </template>
         <template #[`item.actions`]="{ item }">
           <v-menu v-if="item.title !== 'Uncategorized'" left offset-x close-on-content-click transition="slide-x-transition">
@@ -70,7 +88,7 @@
           <v-btn color="info" @click="viewItem(item.id)">
             <v-icon left>
               mdi-eye
-            </v-icon>View
+            </v-icon>View/Edit
           </v-btn>
         </template>
       </v-data-table>
@@ -90,9 +108,14 @@ export default {
   data: () => ({
     loading: true,
     items: {
+      search: null,
       list: [],
       loading: true,
       headers: [
+        {
+          text: 'Status',
+          value: 'is_published'
+        },
         {
           text: 'Title',
           value: 'title'
@@ -132,9 +155,12 @@ export default {
     formatDate,
     mapResponse (items) {
       const data = items
-      const defaultItem = data.findIndex(el => el.title === 'default')
-      data[defaultItem].title = 'Uncategorized'
+      const defaultItemIndex = data.findIndex(el => el.title === 'default')
+      const defaultItem = data[defaultItemIndex]
+      data[defaultItemIndex].title = 'Uncategorized'
+      delete data[defaultItemIndex]
       this.items.list = data
+      this.items.list.unshift(defaultItem)
     },
     viewItem (index) {
       this.$router.push('/admin/gallery/' + index)

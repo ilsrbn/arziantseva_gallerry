@@ -5,17 +5,27 @@
     </v-card-title>
     <v-divider />
     <v-card-text>
-      <v-row>
-        <v-col>
-          <v-text-field v-model="content.title" outlined hide-details label="Category title" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />
-        </v-col>
-        <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>
-      </v-row>
+      <v-form v-model="valid">
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="content.title"
+              required
+              :rules="titleRules"
+              outlined
+              dense
+              label="Category title"
+              validate-on-blur
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />
+          </v-col>
+          <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>
+        </v-row>
+      </v-form>
     </v-card-text>
 
     <v-row><v-col><v-divider /></v-col></v-row>
@@ -51,15 +61,24 @@ export default {
     // CONTENT,
     loading: false,
     content: {
-      title: null,
-      raw_content: null,
-      brief_content: null,
+      title: '',
+      raw_content: '',
+      brief_content: '',
       is_published: false,
       sort: 0
-    }
+    },
+    titleRules: [
+      v => !!v || 'Title is required',
+      v => v.length >= 4 || 'Title must be at least 4 characters'
+    ],
+    valid: false
   }),
   methods: {
     async create () {
+      if (!this.valid) {
+        this.$toast.error('Form is invalid')
+        return false
+      }
       this.loading = true
       try {
         const payload = this.content

@@ -48,7 +48,9 @@
     </v-app-bar>
     <v-main>
       <v-container>
-        <Nuxt />
+        <transition name="page">
+          <Nuxt />
+        </transition>
       </v-container>
     </v-main>
   </v-app>

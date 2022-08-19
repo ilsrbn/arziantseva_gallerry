@@ -5,17 +5,27 @@
     </v-card-title>
     <v-divider />
     <v-card-text>
-      <v-row>
-        <v-col>
-          <v-text-field v-model="content.title" outlined hide-details label="Category title" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />
-        </v-col>
-        <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>
-      </v-row>
+      <v-form v-model="valid">
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="content.title"
+              required
+              validate-on-blur
+              :rules="titleRules"
+              outlined
+              dense
+              label="Category title"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />
+          </v-col>
+          <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>
+        </v-row>
+      </v-form>
     </v-card-text>
 
     <v-row><v-col><v-divider /></v-col></v-row>
@@ -48,12 +58,17 @@ export default {
   data: () => ({
     loading: true,
     content: {
-      title: null,
-      raw_content: null,
-      brief_content: null,
+      title: '',
+      raw_content: '',
+      brief_content: '',
       sort: 0,
       is_published: false
-    }
+    },
+    titleRules: [
+      v => !!v || 'Title is required',
+      v => v.length >= 4 || 'Title must be at least 4 characters'
+    ],
+    valid: false
   }),
   created () {
     // const { data } = await this.$axios.$get('/admin/blog/item-attachments?blog_item_id=' + this.$route.params.id)
@@ -75,6 +90,10 @@ export default {
   },
   methods: {
     async create () {
+      if (!this.valid) {
+        this.$toast.error('Form is invalid')
+        return false
+      }
       this.loading = true
       try {
         const payload = this.content

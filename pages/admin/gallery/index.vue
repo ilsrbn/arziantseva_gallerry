@@ -156,6 +156,10 @@ export default {
     mapResponse (items) {
       const data = items
       const defaultItemIndex = data.findIndex(el => el.title === 'default')
+      if (defaultItemIndex === -1) {
+        this.items.list = data
+        return true
+      }
       const defaultItem = data[defaultItemIndex]
       data[defaultItemIndex].title = 'Uncategorized'
       delete data[defaultItemIndex]

@@ -2,7 +2,7 @@
   <div :style="{ marginBottom: '20px' }" class="wrapper">
     <div class="overlay">
       <div class="overlay__container">
-        <v-btn color="red" tile elevation="14" @click="handleRemove()">
+        <v-btn color="red" tile elevation="14" @click="handleRemove(image.id)">
           DELETE
           <v-icon right>
             mdi-delete
@@ -11,7 +11,7 @@
       </div>
     </div>
     <v-img
-      :src="image.url"
+      :src="image.url ? image.url : image.file_url"
       class="image grey lighten-2"
       @click="overlay = !overlay"
     >

@@ -1,7 +1,21 @@
 <template>
   <div>
-    <ClockLoader :loading="loading" />
-    {{ posts }}
+    <client-only>
+      <masonry
+        class="masonry"
+        :cols="{
+          default: 4,
+          2000: 3,
+          1200: 2,
+          768: 1
+        }"
+        :gutter="{
+          default: 16, 420: 8
+        }"
+      >
+        <img v-for="(img, id) in photos" :key="id" :src="img.file_url" :style="{ maxWidth: '100%', minWidth: '100%', marginBottom: '16px' }" alt="Portraits">
+      </masonry>
+    </client-only>
   </div>
 </template>
 
@@ -10,12 +24,16 @@ export default {
   name: 'MainPage',
   data: () => ({
     loading: true,
-    posts: []
+    posts: [],
+    photos: []
   }),
   async mounted () {
     try {
-      const { data } = await this.$axios.$get('/blog/posts/gallery')
+      const { items: { data } } = await this.$axios.$get('/blog/posts/gallery')
+      console.log(data)
       this.posts = data
+      await this.fetchPhotos()
+      console.log(this.photos)
     } catch (e) {
       this.$toast.error('Oops...\nSomething went wrong.')
     } finally {
@@ -23,7 +41,12 @@ export default {
     }
   },
   methods: {
-
+    async fetchPhotos () {
+      for (const category of this.posts) {
+        const data = await this.$axios.$get(`/blog/items/${category.id}`)
+        this.photos = [...this.photos, ...data.attachments]
+      }
+    }
   }
 }
 </script>

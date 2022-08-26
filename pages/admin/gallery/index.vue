@@ -50,15 +50,30 @@
         </template>
         <template #[`item.is_published`]="{ item }">
           <template v-if="item.is_published.toString() === '1'">
-            <v-chip color="primary">
-              Posted
-            </v-chip>
+            <v-tooltip top>
+              <template #activator="{ attrs, on }">
+                <v-chip v-bind="attrs" color="primary" @click="switchStatus(item.id)" v-on="on">
+                  Posted
+                </v-chip>
+              </template>
+              <span>Click to hide category</span>
+            </v-tooltip>
           </template>
           <template v-else>
-            <v-chip outlined>
-              Hidden
-            </v-chip>
+            <v-tooltip top>
+              <template #activator="{ attrs, on }">
+                <v-chip v-bind="attrs" outlined @click="switchStatus(item.id)" v-on="on">
+                  Hidden
+                </v-chip>
+              </template>
+              <span>Click to post category</span>
+            </v-tooltip>
           </template>
+        </template>
+        <template #[`item.attach_counter`]="{ item }">
+          <v-chip :outlined="!!!item.attach_counter" :color="!!item.attach_counter ? 'primary' : 'default'">
+            {{ item.attach_counter }}
+          </v-chip>
         </template>
         <template #[`item.actions`]="{ item }">
           <v-menu v-if="item.title !== 'Uncategorized'" left offset-x close-on-content-click transition="slide-x-transition">
@@ -125,6 +140,10 @@ export default {
           value: 'brief_content'
         },
         {
+          text: 'Photos',
+          value: 'attach_counter'
+        },
+        {
           text: 'Created',
           value: 'created_at'
         },
@@ -141,30 +160,32 @@ export default {
   }),
   async created () {
     try {
-      const { data } = await this.$axios.$get('/admin/blog/items')
-      this.mapResponse(data)
+      await this.fetchItems()
     } catch (e) {
-      this.$toast.error('Error')
+      this.$toast.error(e)
       console.log(e)
     } finally {
-      this.loading = false
       this.items.loading = false
     }
   },
   methods: {
     formatDate,
-    mapResponse (items) {
-      const data = items
-      const defaultItemIndex = data.findIndex(el => el.title === 'default')
-      if (defaultItemIndex === -1) {
-        this.items.list = data
-        return true
+    async switchStatus (id) {
+      this.items.loading = true
+      try {
+        await this.$axios.$get(`/admin/blog/items/${id}/change-publish`)
+        await this.fetchItems()
+        this.$toast.info('Status changed')
+      } catch (e) {
+        console.log(e)
+        this.$toast.error(e.message)
+      } finally {
+        this.items.loading = false
       }
-      const defaultItem = data[defaultItemIndex]
-      data[defaultItemIndex].title = 'Uncategorized'
-      delete data[defaultItemIndex]
+    },
+    async fetchItems () {
+      const { data } = await this.$axios.$get('/admin/blog/items')
       this.items.list = data
-      this.items.list.unshift(defaultItem)
     },
     viewItem (index) {
       this.$router.push('/admin/gallery/' + index)
@@ -174,7 +195,7 @@ export default {
       try {
         await this.$axios.$delete('/admin/blog/items/' + index)
         const { data } = await this.$axios.$get('/admin/blog/items')
-        this.mapResponse(data)
+        this.items.list = data
 
         this.$toast.show('Category deleted')
       } catch (e) {

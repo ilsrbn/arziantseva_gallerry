@@ -11,7 +11,6 @@
             <v-text-field
               v-model="content.title"
               required
-              validate-on-blur
               :rules="titleRules"
               outlined
               dense
@@ -26,6 +25,34 @@
           <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>
         </v-row>
       </v-form>
+      <v-row>
+        <v-col>
+          <v-file-input
+            v-model="images.files"
+            :disabled="loading"
+            accept="image/*"
+            label="Images"
+            multiple
+            outlined
+            chips
+            @change="addPreloadedPhotos()"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <masonry
+            :cols="{
+              default: 3
+            }"
+            :gutter="{ default: 12 }"
+          >
+            <div v-for="(image, i) in images.list" :key="i" :style="{ marginBottom: '12px' }">
+              <LazyImage :image="image" @removeImage="removeImage" />
+            </div>
+          </masonry>
+        </v-col>
+      </v-row>
     </v-card-text>
 
     <v-row><v-col><v-divider /></v-col></v-row>
@@ -52,10 +79,19 @@
 </template>
 
 <script>
+import { v4 } from 'uuid'
+import LazyImage from '@/components/admin/LazyImage'
 export default {
   name: 'ViewGallery',
+  components: { LazyImage },
   layout: 'dashboard',
   data: () => ({
+    images: {
+      list: [],
+      files: [],
+      toUpload: [],
+      toRemove: []
+    },
     loading: true,
     content: {
       title: '',
@@ -73,14 +109,12 @@ export default {
   created () {
     // const { data } = await this.$axios.$get('/admin/blog/item-attachments?blog_item_id=' + this.$route.params.id)
     this.$axios.$get('/admin/blog/items/' + this.$route.params.id).then((data) => {
-      this.content = data
-      this.content.is_published.toString() === '1' ? this.content.is_published = true : this.content.is_published = false
-      delete this.content.updated_at
-      delete this.content.created_at
-      delete this.content.id
-      delete this.content.attachments
-      delete this.content.html_content
-      delete this.content.deleted_at
+      this.content.title = data.title
+      this.content.sort = data.sort
+      this.content.is_published = data.is_published.toString() === '1' ? this.content.is_published = true : this.content.is_published = false
+      this.content.brief_content = data.brief_content
+      this.content.raw_content = data.raw_content
+      this.images.list = [...data.attachments]
     }).catch((e) => {
       console.log(e)
       this.$toast.error(e.message)
@@ -95,6 +129,12 @@ export default {
         return false
       }
       this.loading = true
+      for (const img of this.images.toRemove) {
+        await this.deleteImage(img.id)
+      }
+      for (const img of this.images.toUpload) {
+        await this.handleUpload(img)
+      }
       try {
         const payload = this.content
         payload.is_published ? payload.is_published = 1 : payload.is_published = 0
@@ -106,6 +146,60 @@ export default {
       } catch (e) {
         console.log(e)
         this.$toast.error(e.message)
+      } finally {
+        this.loading = false
+      }
+    },
+    async handleUpload (img) {
+      try {
+        const formData = new FormData()
+        formData.append('blog_item_id', this.$route.params.id)
+        formData.append('source', 'FILE')
+        formData.append('file_path', img.file)
+        await this.$axios.$post('/admin/blog/item-attachments', formData)
+        this.$toast.success('Image uploaded')
+      } catch (e) {
+        console.log(e)
+        this.$toast.error(e)
+      }
+    },
+    addPreloadedPhotos () {
+      const files = this.images.files
+      const images = []
+      files.forEach((file) => {
+        images.push({
+          file,
+          url: URL.createObjectURL(file),
+          id: v4()
+        })
+      }
+      )
+      this.images.files = []
+      this.images.list = [...this.images.list, ...images]
+      this.images.toUpload = [...this.images.toUpload, ...images]
+    },
+    removeImage (id) {
+      const img = this.images.list.find(el => el.id === id)
+      this.images.list = this.images.list.filter(el => el.id !== id)
+      this.images.toUpload = this.images.toUpload.filter(el => el.id !== id)
+      'file_path' in img && this.images.toRemove.push(img)
+    },
+    async deleteImage (id) {
+      this.loading = true
+      const img = this.images.list.find(el => el.id === id)
+      if (img && !('file_path' in img)) {
+        this.$toast.info('Image deleted successfully')
+        this.images.list = this.images.list.filter(el => el.id !== id)
+        this.loading = false
+        return
+      }
+      try {
+        await this.$axios.$delete(`/admin/blog/item-attachments/${id}`)
+        this.$toast.info('Image deleted successfully')
+        this.images.list = this.images.list.filter(el => el.id !== id)
+      } catch (e) {
+        console.log(e)
+        this.$toast.error(e)
       } finally {
         this.loading = false
       }

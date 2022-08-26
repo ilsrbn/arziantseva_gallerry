@@ -1,52 +1,31 @@
 <template>
   <div class="layout layout__default">
-    <SidebarComponent class="sidebar" />
+    <Header />
     <nuxt class="view" />
+    <Footer class="footer" />
   </div>
 </template>
 
 <script>
-import SidebarComponent from '@/components/defaultLayout/Sidebar'
 export default {
-  name: 'DefaultLayout',
-  components: { SidebarComponent },
-  beforeMount () {
-    document.addEventListener('resize', () => this.resize())
-  },
-  mounted () {
-    this.resize()
-  },
-  beforeDestroy () {
-    document.removeEventListener('resize', () => this.resize())
-  },
-  methods: {
-    resize () {
-      const $sidebar = document.querySelector('.sidebar').offsetWidth
-      const $view = document.querySelector('.view')
-      $view.style.marginLeft = $sidebar + 'px'
-      $view.style.maxWidth = `calc(100vw - ${$sidebar}px)`
-    }
-  }
+  name: 'DefaultLayout'
 }
 </script>
 
 <style scoped lang="scss">
 .layout {
-  background: var(--main-color);
+  background: var(--background-color);
   width: 100%;
-
-  .sidebar {
-    position: fixed;
-    //width: 250px;
-    left: 0;
-    top: 0;
-    height: 100vh;
-  }
+  display: flex;
+  flex-direction: column;
   .view {
+    margin: 85px auto 0;
+    padding-top: 51px;
     //margin-left and max-width updated dynamically using js
     //background: linear-gradient(to top, red, blue);
-    height: 200vh;
     width: 100%;
+    max-width: calc(100% - 88px);
+    padding-bottom: 50px;
   }
 }
 </style>

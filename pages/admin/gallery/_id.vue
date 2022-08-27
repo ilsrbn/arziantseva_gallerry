@@ -2,7 +2,7 @@
   <v-card :loading="loading" :disabled="loading">
     <v-card-title>
       <v-btn icon class="mr-2" @click="$router.go(-1)">
-        <i class="ri-arrow-left-line"></i>
+        <i class="ri-arrow-left-line ri-2x"></i>
       </v-btn>
       View/Edit category
     </v-card-title>

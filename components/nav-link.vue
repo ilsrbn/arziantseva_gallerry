@@ -1,19 +1,38 @@
 <template>
-  <div class="wrapper">
+  <button class="wrapper" @click.prevent="navigate()">
     <span class="el" :class="{small}">
       <slot />
     </span>
     <div class="underscore" />
-  </div>
+  </button>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'NavLink',
   props: {
     small: {
       type: Boolean,
       default: false
+    },
+    link: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    ...mapMutations({
+      resetMenu: 'menu/resetMenu'
+    }),
+    async navigate () {
+      await this.$router.push(this.link)
+
+      setTimeout(() => {
+        this.resetMenu()
+      }, 500)
+      // this.resetMenu()
     }
   }
 }
@@ -46,7 +65,7 @@ export default {
   .underscore {
     position: absolute;
     border: 1px solid white;
-    height: 2px;
+    height: 1px;
     width: 100%;
     bottom: 0;
     left: -101%;

@@ -6,6 +6,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('node_modules/hamburgers/dist/hamburgers.min.css');
 
+.hamburger {
+  padding: 0;
+}
+
+.hamburger.is-active .hamburger-inner, .hamburger.is-active .hamburger-inner::after, .hamburger.is-active .hamburger-inner::before, .hamburger-inner, .hamburger-inner::after, .hamburger-inner::before {
+  border-radius: 0;
+  background-color: white;
+}
+
 html {
   --main-color: #0F1021;
   --accent-color: #D01257;
@@ -35,15 +44,15 @@ span {
   color: var(--text-main-color);
 }
 
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
+//.v-enter-active,
+//.v-leave-active {
+//  transition: opacity 0.5s ease;
+//}
+//
+//.v-enter-from,
+//.v-leave-to {
+//  opacity: 0;
+//}
 
 * {
   font-family: 'Source Sans Pro', sans-serif;

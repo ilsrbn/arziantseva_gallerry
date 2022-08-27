@@ -8,16 +8,14 @@
         <nav>
           <ul>
             <li v-for="(link, i) in links" :key="i">
-              <nuxt-link :to="link.href">
-                <nav-link class="uppercase">
-                  {{ link.text }}
-                </nav-link>
-              </nuxt-link>
+              <nav-link :link="link.href" class="uppercase">
+                {{ link.text }}
+              </nav-link>
             </li>
           </ul>
         </nav>
         <div class="social">
-          <nav-link v-for="(icon, i) in social" :key="i">
+          <nav-link v-for="(icon, i) in social" :key="i" :link="'/'">
             <img :src="require(`~/assets/icons/social/${icon}`)">
           </nav-link>
         </div>
@@ -28,23 +26,23 @@
     </div>
     <div v-show="menu" class="header__container-mobile">
       <div class="header__right">
-        <div class="spacer" />
         <nav>
           <ul>
             <li v-for="(link, i) in links" :key="i">
-              <nuxt-link :to="link.href">
-                <nav-link class="uppercase">
-                  {{ link.text }}
-                </nav-link>
-              </nuxt-link>
+              <nav-link :link="link.href" class="uppercase">
+                {{ link.text }}
+              </nav-link>
             </li>
           </ul>
         </nav>
-        <div class="social">
-          <nav-link v-for="(icon, i) in social" :key="i">
-            <img :src="require(`~/assets/icons/social/${icon}`)">
-          </nav-link>
-        </div>
+      </div>
+    </div>
+
+    <div v-show="menu" class="header__container-mobile-bottom">
+      <div class="social">
+        <nav-link v-for="(icon, i) in social" :key="i" :link="'/'">
+          <img :src="require(`~/assets/icons/social/${icon}`)">
+        </nav-link>
       </div>
     </div>
   </header>
@@ -106,6 +104,7 @@ header {
   max-width: 100vw;
   padding: 41px 0 20px;
   margin: 0;
+  z-index: 500;
   &.mobile {
     height: 100vh;
   }
@@ -132,12 +131,8 @@ header {
           display: flex;
           flex-direction: column;
           height: 100%;
-          justify-content: space-between;
+          justify-content: center;
           align-items: center;
-          padding-bottom: 32px;
-          @media screen and (max-width: 568px) {
-            padding-bottom: 0;
-          }
           nav ul {
             flex-direction: column;
           }
@@ -145,6 +140,11 @@ header {
             flex: 0 0 33.333%;
           }
         }
+      }
+      &-bottom {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

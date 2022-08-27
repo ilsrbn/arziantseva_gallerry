@@ -16,10 +16,25 @@ export default {
       open: 'menu/open'
     })
   },
+  data: () => ({
+    scrollPos: 0
+  }),
   methods: {
     ...mapMutations({
       switchMenu: 'menu/switchMenu'
     })
+    // switchOpen () {
+    //   if (!this.open) {
+    //     this.scrollPos = window.scrollY
+    //     console.log(this.scrollPos)
+    //     this.switchMenu()
+    //   } else {
+    //     this.switchMenu()
+    //     setTimeout(() => {
+    //       window.scrollTo(0, this.scrollPos)
+    //     }, 0)
+    //   }
+    // }
   }
 }
 </script>

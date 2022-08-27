@@ -1,7 +1,7 @@
 <template>
-  <nuxt-link to="/">
-    <nav-link class="uppercase">Arziantseva</nav-link>
-  </nuxt-link>
+  <nav-link :link="'/'" class="uppercase">
+    Arziantseva
+  </nav-link>
 </template>
 
 <script>

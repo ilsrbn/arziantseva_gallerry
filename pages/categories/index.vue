@@ -7,6 +7,7 @@
 </template>
 
 <script>
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Categories',
@@ -21,8 +22,6 @@ export default {
     } catch (e) {
       console.log(e)
       this.$toast.error(e)
-    } finally {
-      this.loading = false
     }
   }
 }

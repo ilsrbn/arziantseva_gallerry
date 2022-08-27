@@ -12,6 +12,7 @@ export const mutations = {
   },
   resetMenu (state) {
     state.open = false
+    console.log(state.open)
   },
   setMenu (state, payload) {
     state.open = payload

@@ -7,8 +7,25 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
-  name: 'DefaultLayout'
+  name: 'DefaultLayout',
+  methods: {
+    ...mapMutations({
+      resetMenu: 'menu/resetMenu'
+    })
+  },
+  computed: {
+    ...mapGetters({
+      menu: 'menu/open'
+    })
+  },
+  watch: {
+    '$route' () {
+      this.resetMenu()
+    }
+  }
 }
 </script>
 
@@ -21,7 +38,6 @@ export default {
   .view {
     min-height: calc(100vh - 85px);
     margin: 85px auto 0;
-    padding-top: 51px;
     //margin-left and max-width updated dynamically using js
     //background: linear-gradient(to top, red, blue);
     width: 100%;

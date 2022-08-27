@@ -1,5 +1,6 @@
 <template>
   <div class="view">
+    <h1 class="text-center header">{{ title }}</h1>
     <client-only>
       <masonry
         class="masonry"
@@ -21,35 +22,36 @@
 
 <script>
 export default {
-  name: 'MainPage',
+  name: 'CategoryId',
   data: () => ({
-    loading: true,
-    posts: [],
-    photos: []
+    photos: [],
+    title: ''
   }),
-  async mounted () {
-    try {
-      const { data } = await this.$axios.$get('/blog/item-attachments?order_by=-id')
-      this.photos = data
-    } catch (e) {
-      console.log(e)
-      this.$toast.error('Oops...\nSomething went wrong.')
-    } finally {
-      this.loading = false
+  computed: {
+    path () {
+      return this.$route.params.id
     }
   },
-  methods: {
-    async fetchPhotos () {
-      for (const category of this.posts) {
-        const data = await this.$axios.$get(`/blog/items/${category.id}`)
-        this.photos = [...this.photos, ...data.attachments]
-      }
+  async created () {
+    try {
+      const data = await this.$axios.$get(`/blog/items/${this.path}`)
+
+      this.title = data.title
+      this.photos = data.attachments
+    } catch (e) {
+      this.$toast.error(e)
+      console.log(e)
     }
   }
 }
 </script>
+
 <style scoped lang="scss">
 .view {
-  padding-top: 51px;
+  padding-top: 31px;
 }
+.header {
+  margin-bottom: 40px;
+}
+
 </style>

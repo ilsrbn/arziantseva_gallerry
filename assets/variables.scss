@@ -15,6 +15,12 @@ html {
   --background-color: #000;
   //background: var(--background-color);
 }
+* {
+  color: var(--text-main-color)
+}
+li {
+  list-style: none;
+}
 .mobile-nav {
   height: 100%;
   overflow: hidden;
@@ -85,6 +91,21 @@ main {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
+}
+
+.text-center {
+  text-align: center;
+}
+h1 {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+
+  /* identical to box height */
+  text-decoration-line: underline;
+  text-transform: uppercase;
 }
 
 /* Grouping content

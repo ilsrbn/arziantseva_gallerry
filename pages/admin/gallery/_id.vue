@@ -141,7 +141,7 @@ export default {
         payload.post_id = 2
         await this.$axios.$post('/admin/blog/items/' + this.$route.params.id + '?_method=PUT', payload)
 
-        this.$toast.success('Category created')
+        this.$toast.success('Category updated!')
         this.$router.push('/admin/gallery')
       } catch (e) {
         console.log(e)

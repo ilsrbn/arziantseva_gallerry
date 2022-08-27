@@ -3,7 +3,7 @@
     <template #header>
       <v-sheet rounded="xl" class="pa-2">
         <v-row>
-          <v-col>
+          <v-col cols="12" md="4">
             <v-btn rounded color="green" elevation="5" @click="$router.push('/admin/gallery/new')">
               Create Category <v-icon right>
                 mdi-plus
@@ -11,7 +11,7 @@
             </v-btn>
           </v-col>
           <v-spacer />
-          <v-col>
+          <v-col cols="12" md="4">
             <v-text-field
               v-model="items.search"
               hide-details

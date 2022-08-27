@@ -49,13 +49,12 @@ export default {
     height: 2px;
     width: 100%;
     bottom: 0;
-    left: 0;
-    transform: translateX(-100%);
+    left: -101%;
     transition: all 150ms ease-in;
   }
   &:hover {
     .underscore {
-      transform: translateX(0);
+      left: 0;
     }
   }
 }

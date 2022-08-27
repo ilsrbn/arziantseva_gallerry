@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header :class="{'mobile': menu}">
     <div class="header__container">
       <div class="header__left">
         <LogoComponent />
@@ -22,11 +22,36 @@
           </nav-link>
         </div>
       </div>
+      <div class="header__right-mobile">
+        <Hamburger />
+      </div>
+    </div>
+    <div v-show="menu" class="header__container-mobile">
+      <div class="header__right">
+        <div class="spacer" />
+        <nav>
+          <ul>
+            <li v-for="(link, i) in links" :key="i">
+              <nuxt-link :to="link.href">
+                <nav-link class="uppercase">
+                  {{ link.text }}
+                </nav-link>
+              </nuxt-link>
+            </li>
+          </ul>
+        </nav>
+        <div class="social">
+          <nav-link v-for="(icon, i) in social" :key="i">
+            <img :src="require(`~/assets/icons/social/${icon}`)">
+          </nav-link>
+        </div>
+      </div>
     </div>
   </header>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import LogoComponent from '@/components/Logo'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -48,7 +73,24 @@ export default {
       }
     ],
     social: ['inst.svg', 'fb.svg']
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      menu: 'menu/open'
+    })
+  },
+  watch: {
+    menu () {
+      if (this.menu) {
+        document.querySelector('body').classList.add('mobile-nav')
+      } else {
+        document.querySelector('body').classList.remove('mobile-nav')
+      }
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 
@@ -59,10 +101,14 @@ header {
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 100vw;
   padding: 41px 0 20px;
   margin: 0;
+  &.mobile {
+    height: 100vh;
+  }
   .header__container {
     width: 100%;
     max-width: calc(100% - 134px);
@@ -71,14 +117,56 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media screen and (max-width: 998px) {
+      max-width: calc(100% - 32px);
+    }
+    &-mobile {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      //padding-bottom: 24px;
+      .header__right {
+        @media screen and (max-width: 998px) {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          justify-content: space-between;
+          align-items: center;
+          padding-bottom: 32px;
+          @media screen and (max-width: 568px) {
+            padding-bottom: 0;
+          }
+          nav ul {
+            flex-direction: column;
+          }
+          & > * {
+            flex: 0 0 33.333%;
+          }
+        }
+      }
+    }
   }
   .header__left {
     margin-left: 102px;
+    @media screen and (max-width: 1280px) {
+      margin-left: 0;
+    }
   }
   .header__right {
     display: flex;
     align-items: center;
-    gap: 153px
+    gap: 7.96875vw;
+    @media screen and (max-width: 998px) {
+      display: none;
+    }
+    &-mobile {
+      display: none;
+      @media screen and (max-width: 998px) {
+        display: flex;
+      }
+    }
   }
   nav ul {
     display: flex;

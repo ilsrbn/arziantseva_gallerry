@@ -5,7 +5,7 @@
       :mini-variant="miniVariant"
       clipped
       app
-      class="elevation-4"
+      class="elevation-4 justify-lg-space-between"
     >
       <v-list>
         <v-list-item
@@ -23,6 +23,20 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-list class="sidebar__els">
+        <v-list-item @click="toHome()">
+          <v-list-item-action><v-icon>mdi-exit-to-app</v-icon></v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="'Back to client site'"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="logout()" color="red">
+          <v-list-item-action><v-icon>mdi-logout</v-icon></v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="'Logout'"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -32,19 +46,21 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
 
-      <v-btn class="mr-2" color="accent" @click="toHome()">
-        Back to client site
-        <v-icon right>
-          mdi-exit-to-app
-        </v-icon>
-      </v-btn>
+      <div class="nav__elements">
+        <v-btn class="mr-2" color="accent" @click="toHome()">
+          Back to client site
+          <v-icon right>
+            mdi-exit-to-app
+          </v-icon>
+        </v-btn>
 
-      <v-btn color="red" @click="logout()">
-        Logout
-        <v-icon right>
-          mdi-logout
-        </v-icon>
-      </v-btn>
+        <v-btn color="red" @click="logout()">
+          Logout
+          <v-icon right>
+            mdi-logout
+          </v-icon>
+        </v-btn>
+      </div>
     </v-app-bar>
     <v-main>
       <v-container>
@@ -103,3 +119,16 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.nav__elements {
+  @media screen and (max-width: 998px){
+    display: none;
+  }
+}
+.sidebar__els {
+  display: none;
+  @media screen and (max-width: 998px) {
+    display: block;
+  }
+}
+</style>

@@ -29,12 +29,10 @@ export default {
   }),
   async mounted () {
     try {
-      const { items: { data } } = await this.$axios.$get('/blog/posts/gallery')
-      console.log(data)
-      this.posts = data
-      await this.fetchPhotos()
-      console.log(this.photos)
+      const { data } = await this.$axios.$get('/blog/item-attachments?order_by=-id')
+      this.photos = data
     } catch (e) {
+      console.log(e)
       this.$toast.error('Oops...\nSomething went wrong.')
     } finally {
       this.loading = false

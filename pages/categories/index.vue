@@ -36,7 +36,7 @@ export default {
   padding-top: 107px;
 }
 .category {
-  flex: 1 1 calc(33.333% - 60px);
+  flex: 0 1 calc(33.333% - 20px);
   @media screen and (max-width: 1200px) {
     flex: 0 1 calc(50% - 15px);
   }

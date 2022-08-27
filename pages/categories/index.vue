@@ -30,17 +30,23 @@ export default {
 
 <style scoped lang="scss">
 .page__container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(auto-fill, 500px);
+  display: flex;
+  flex-wrap: wrap;
   gap: 30px;
   padding-top: 107px;
 }
 .category {
+  flex: 1 1 calc(33.333% - 60px);
+  @media screen and (max-width: 1200px) {
+    flex: 0 1 calc(50% - 15px);
+  }
+  @media screen and (max-width: 768px) {
+    flex: 1 1 100%;
+  }
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
+  //border: 1px solid white;
   background: rgba($color: white, $alpha: 0);
   transition: all 150ms ease-in;
   cursor: pointer;

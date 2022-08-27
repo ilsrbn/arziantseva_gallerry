@@ -1,6 +1,9 @@
 <template>
   <v-card :loading="loading" :disabled="loading">
     <v-card-title>
+      <v-btn icon class="mr-2" @click="$router.go(-1)">
+        <i class="ri-arrow-left-line"></i>
+      </v-btn>
       View/Edit category
     </v-card-title>
     <v-divider />
@@ -18,12 +21,12 @@
             />
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />
-          </v-col>
-          <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>
-        </v-row>
+        <!--        <v-row>-->
+        <!--          <v-col>-->
+        <!--            <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />-->
+        <!--          </v-col>-->
+        <!--          <v-col><v-textarea v-model="content.brief_content" label="Category short description" outlined rows="3" /></v-col>-->
+        <!--        </v-row>-->
       </v-form>
       <v-row>
         <v-col>

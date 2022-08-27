@@ -4,11 +4,44 @@
       <v-sheet rounded="xl" class="pa-2">
         <v-row>
           <v-col cols="12" md="4">
-            <v-btn rounded color="green" elevation="5" @click="$router.push('/admin/gallery/new')">
-              Create Category <v-icon right>
-                mdi-plus
-              </v-icon>
-            </v-btn>
+            <v-dialog width="500">
+              <template #activator="{ attrs, on }">
+                <v-btn
+                  v-bind="attrs"
+                  rounded
+                  color="green"
+                  elevation="5"
+                  v-on="on"
+                >
+                  Create Category <v-icon right>
+                    mdi-plus
+                  </v-icon>
+                </v-btn>
+              </template>
+              <v-card :disabled="loading" :loading="loading">
+                <v-card-title>Create category</v-card-title>
+                <v-card-subtitle>Enter category title</v-card-subtitle>
+                <v-card-text>
+                  <v-form v-model="category.valid">
+                    <v-text-field
+                      v-model="category.title"
+                      required
+                      :rules="category.rules"
+                      outlined
+                      placeholder="Category title"
+                      validate-on-blur
+                    />
+                  </v-form>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn :loading="loading" :disabled="loading" rounded color="green" @click="createCategory()">
+                    Create Category <v-icon right>
+                      mdi-plus
+                    </v-icon>
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
           <v-spacer />
           <v-col cols="12" md="4">
@@ -32,16 +65,16 @@
         :headers="items.headers"
         :search="items.search"
       >
-        <template #[`item.brief_content`]="{ item }">
-          <template v-if="!!item.brief_content">
-            {{ item.brief_content }}
-          </template>
-          <template v-else>
-            <v-chip outlined>
-              Empty
-            </v-chip>
-          </template>
-        </template>
+        <!--        <template #[`item.brief_content`]="{ item }">-->
+        <!--          <template v-if="!!item.brief_content">-->
+        <!--            {{ item.brief_content }}-->
+        <!--          </template>-->
+        <!--          <template v-else>-->
+        <!--            <v-chip outlined>-->
+        <!--              Empty-->
+        <!--            </v-chip>-->
+        <!--          </template>-->
+        <!--        </template>-->
         <template #[`item.created_at`]="{ item }">
           {{ formatDate($moment.utc(item.created_at).local()) }}
         </template>
@@ -102,8 +135,8 @@
           </v-menu>
           <v-btn color="info" @click="viewItem(item.id)">
             <v-icon left>
-              mdi-eye
-            </v-icon>View/Edit
+              mdi-pencil
+            </v-icon>Edit
           </v-btn>
         </template>
       </v-data-table>
@@ -122,6 +155,14 @@ export default {
   layout: 'dashboard',
   data: () => ({
     loading: true,
+    category: {
+      valid: false,
+      title: '',
+      rules: [
+        v => !!v || 'Title is required',
+        v => v.length >= 4 || 'Title must be at least 4 characters'
+      ]
+    },
     items: {
       search: null,
       list: [],
@@ -135,10 +176,10 @@ export default {
           text: 'Title',
           value: 'title'
         },
-        {
-          text: 'Short description',
-          value: 'brief_content'
-        },
+        // {
+        //   text: 'Short description',
+        //   value: 'brief_content'
+        // },
         {
           text: 'Photos',
           value: 'attach_counter'
@@ -166,10 +207,35 @@ export default {
       console.log(e)
     } finally {
       this.items.loading = false
+      this.loading = false
     }
   },
   methods: {
     formatDate,
+    async createCategory () {
+      if (!this.category.valid) {
+        this.$toast.error('Form is invalid')
+        return false
+      }
+      this.loading = true
+      try {
+        const payload = {
+          title: this.category.title,
+          brief_content: '',
+          raw_content: '',
+          is_published: 0,
+          post_id: 2
+        }
+        const resp = await this.$axios.$post('/admin/blog/items', payload)
+        this.$router.push(`/admin/gallery/${resp.id}`)
+        this.$toast.success('Category created')
+      } catch (e) {
+        console.log(e)
+        this.$toast.error(e.message)
+      } finally {
+        this.loading = false
+      }
+    },
     async switchStatus (id) {
       this.items.loading = true
       try {

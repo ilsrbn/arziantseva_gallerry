@@ -21,6 +21,14 @@
             />
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <AdminEditor v-model="content.html_content" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col><v-card><v-card-text><div v-html="content.html_content" /></v-card-text></v-card></v-col>
+        </v-row>
         <!--        <v-row>-->
         <!--          <v-col>-->
         <!--            <v-textarea v-model="content.raw_content" label="Category description" outlined rows="3" />-->
@@ -83,10 +91,9 @@
 
 <script>
 import { v4 } from 'uuid'
-import LazyImage from '@/components/admin/LazyImage'
+
 export default {
-  name: 'ViewGallery',
-  components: { LazyImage },
+  name: 'DashboardPost',
   layout: 'dashboard',
   data: () => ({
     images: {
@@ -101,7 +108,8 @@ export default {
       raw_content: '',
       brief_content: '',
       sort: 0,
-      is_published: false
+      is_published: false,
+      html_content: ''
     },
     titleRules: [
       v => !!v || 'Title is required',
@@ -115,8 +123,9 @@ export default {
       this.content.title = data.title
       this.content.sort = data.sort
       this.content.is_published = data.is_published.toString() === '1' ? this.content.is_published = true : this.content.is_published = false
-      this.content.brief_content = data.brief_content
-      this.content.raw_content = data.raw_content
+      this.content.brief_content = data.brief_content || ''
+      this.content.raw_content = data.raw_content || ''
+      this.content.html_content = data.html_content || ''
       this.images.list = [...data.attachments]
     }).catch((e) => {
       const error = e.response
@@ -147,7 +156,7 @@ export default {
       try {
         const payload = this.content
         payload.is_published ? payload.is_published = 1 : payload.is_published = 0
-        payload.post_id = 2
+        payload.post_id = 1
         await this.$axios.$post('/admin/blog/items/' + this.$route.params.id + '?_method=PUT', payload)
 
         this.$toast.success('Category updated!')

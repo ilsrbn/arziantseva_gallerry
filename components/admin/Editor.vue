@@ -4,6 +4,7 @@
       <div class="editor__header">
         <div class="editor__header-group">
           <v-btn
+            rounded
             icon
             outlined
             elevation="0"
@@ -172,6 +173,12 @@ import 'remixicon/fonts/remixicon.css'
 export default {
   name: 'PostEditor',
   components: { EditorContent },
+  props: {
+    value: {
+      type: [String, null],
+      required: true
+    }
+  },
   data: () => ({
     hrefMenu: {
       status: false,
@@ -181,6 +188,21 @@ export default {
     },
     editor: null
   }),
+  watch: {
+    value (value) {
+      // HTML
+      const isSame = this.editor.getHTML() === value
+
+      // JSON
+      // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
+
+      if (isSame) {
+        return
+      }
+
+      this.editor.commands.setContent(value, false)
+    }
+  },
   mounted () {
     this.editor = new Editor({
       extensions: [
@@ -189,7 +211,14 @@ export default {
         Underline,
         Link
       ],
-      content: '<h1>Adversarium dissentiunt ut his qui magnis vulputate tincidunt</h1> <p>Nisl recteque evertitur elit volutpat nobis. Delicata scelerisque id affert option neque verterem torquent odio mollis. Sanctus nunc enim erat ferri fames phasellus expetendis. Ultricies suscipit eam sapientem errem accusata.</p>'
+      content: this.value,
+      onUpdate: () => {
+        // HTML
+        this.$emit('input', this.editor.getHTML())
+
+        // JSON
+        // this.$emit('input', this.editor.getJSON())
+      }
     })
   },
   beforeDestroy () {

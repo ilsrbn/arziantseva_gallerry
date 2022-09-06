@@ -65,7 +65,7 @@ export default {
   .underscore {
     position: absolute;
     border: 1px solid white;
-    height: 1px;
+    height: 0;
     width: 100%;
     bottom: 0;
     left: -101%;

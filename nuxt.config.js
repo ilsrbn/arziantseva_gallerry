@@ -52,31 +52,50 @@ export default {
   ],
   auth: {
     strategies: {
-      local: {
-        scheme: 'refresh',
+      laravelJWT: {
+        provider: 'laravel/jwt',
+        url: '/auth',
+        endpoints: {
+
+          login: { url: '/login', method: 'post', propertyName: false },
+          refresh: { url: '/refresh', method: 'post', propertyName: false },
+          user: { url: '/me', method: 'post', propertyName: false },
+          logout: { url: '/logout', method: 'post', propertyName: false }
+
+        },
         token: {
           property: 'token',
-          maxAge: 3600,
-          global: true
-          // type: 'Bearer'
+          maxAge: 60 * 60
         },
         refreshToken: {
-          property: 'token',
-          data: 'token',
-          maxAge: 60 * 60 * 24 * 30
-        },
-        user: {
-          property: false
-          // autoFetch: true
-        },
-        endpoints: {
-          login: { url: '/auth/login', method: 'post' },
-          refresh: { url: '/auth/refresh', method: 'post' },
-          user: { url: '/auth/me', method: 'post' },
-          logout: { url: '/auth/logout', method: 'post' }
+          maxAge: 20160 * 60
         }
-        // autoLogout: false
       }
+      // local: {
+      //   scheme: 'refresh',
+      //   token: {
+      //     property: 'token',
+      //     maxAge: 3600,
+      //     global: true
+      //     // type: 'Bearer'
+      //   },
+      //   refreshToken: {
+      //     property: 'token',
+      //     data: 'token',
+      //     maxAge: 60 * 60 * 24 * 30
+      //   },
+      //   user: {
+      //     property: false
+      //     // autoFetch: true
+      //   },
+      //   endpoints: {
+      //     login: { url: '/auth/login', method: 'post' },
+      //     refresh: { url: '/auth/refresh', method: 'post' },
+      //     user: { url: '/auth/me', method: 'post' },
+      //     logout: { url: '/auth/logout', method: 'post' }
+      //   }
+      //   // autoLogout: false
+      // }
     }
   },
   toast: {

@@ -38,7 +38,7 @@ export default {
     async submit () {
       this.loading = true
       try {
-        await this.$auth.loginWith('local', {
+        await this.$auth.loginWith('laravelJWT', {
           data: {
             email: this.email,
             password: this.password

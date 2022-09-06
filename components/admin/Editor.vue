@@ -132,26 +132,26 @@
           </v-btn>
         </div>
         <div class="editor__header-group">
-          <v-menu v-model="hrefMenu.status" :close-on-content-click="false" :close-on-click="false" :position-x="hrefMenu.x" :position-y="hrefMenu.y">
-            <v-card>
-              <v-card-title>Add link</v-card-title>
-              <v-card-text><v-text-field v-model="hrefMenu.link" label="link" placeholder="Paste link here" /></v-card-text>
-              <v-card-actions>
-                <v-btn icon color="primary" @click="setLink()">
-                  <v-icon>mdi-checkbox-marked-circle</v-icon>
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
           <v-btn
             icon
             outlined
             elevation="0"
 
             :color="editor.isActive('link') ? 'info' : 'grey'"
-            @click="showMenu"
+            @click="setLink"
           >
             <i class="ri-link" />
+          </v-btn>
+          <v-btn
+            v-if="editor.isActive('link')"
+            icon
+            outlined
+            elevation="0"
+
+            color="red"
+            @click="editor.chain().focus().unsetLink().run()"
+          >
+            <i class="ri-link-unlink" />
           </v-btn>
         </div>
       </div>
@@ -209,7 +209,10 @@ export default {
         StarterKit,
         Image,
         Underline,
-        Link
+        Link.configure({
+          autolink: false,
+          openOnClick: false
+        })
       ],
       content: this.value,
       onUpdate: () => {
@@ -225,23 +228,34 @@ export default {
     this.editor.destroy()
   },
   methods: {
-    showMenu (e) {
-      this.hrefMenu.link = ''
-      if (this.editor.isActive('link')) {
-        this.editor.chain().focus().toggleLink().run()
-        return false
-      }
-      e.preventDefault()
-      this.hrefMenu.status = false
-      this.hrefMenu.x = e.clientX
-      this.hrefMenu.y = e.clientY
-      this.$nextTick(() => {
-        this.hrefMenu.status = true
-      })
-    },
     setLink () {
-      this.editor.chain().focus().toggleLink({ href: this.hrefMenu.link, target: '_blank' }).run()
-      this.hrefMenu.status = false
+      const previousUrl = this.editor.getAttributes('link').href
+      const url = window.prompt('URL', previousUrl)
+
+      // cancelled
+      if (url === null) {
+        return
+      }
+
+      // empty
+      if (url === '') {
+        this.editor
+          .chain()
+          .focus()
+          .extendMarkRange('link')
+          .unsetLink()
+          .run()
+
+        return
+      }
+
+      // update link
+      this.editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({ href: url })
+        .run()
     }
   }
 }

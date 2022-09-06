@@ -30,6 +30,11 @@ html {
 li {
   list-style: none;
 }
+.editor-preview {
+  li {
+    list-style: unset;
+  }
+}
 .mobile-nav {
   height: 100%;
   overflow: hidden;

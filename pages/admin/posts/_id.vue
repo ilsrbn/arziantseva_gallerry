@@ -160,7 +160,7 @@ export default {
         await this.$axios.$post('/admin/blog/items/' + this.$route.params.id + '?_method=PUT', payload)
 
         this.$toast.success('Category updated!')
-        await this.$router.push('/admin/gallery')
+        await this.$router.push('/admin/posts')
       } catch (e) {
         console.log(e)
         this.$toast.error(e.message)

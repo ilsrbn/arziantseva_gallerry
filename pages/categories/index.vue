@@ -17,7 +17,7 @@ export default {
   }),
   async created () {
     try {
-      const { items: { data } } = await this.$axios.$get('/blog/posts/gallery?order_by=id')
+      const { items: { data } } = await this.$axios.$get('/blog/posts/gallery/?order_by=id&nocache=' + new Date().getTime())
       this.categories = data
     } catch (e) {
       console.log(e)

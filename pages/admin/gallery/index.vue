@@ -250,7 +250,7 @@ export default {
       }
     },
     async fetchItems () {
-      const { data } = await this.$axios.$get('/admin/blog/items/?post_id=2&nocache=' + new Date().getTime())
+      const { data } = await this.$axios.$get('/admin/blog/items?post_id=2&nocache=' + Date.now())
       this.items.list = data
     },
     viewItem (index) {

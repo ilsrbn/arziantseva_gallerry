@@ -23,11 +23,11 @@
         </v-row>
         <v-row>
           <v-col>
-            <AdminEditor class="editor-preview" v-model="content.html_content" />
+            <AdminEditor class="editor-preview" v-model="content.raw_content" />
           </v-col>
         </v-row>
         <v-row>
-          <v-col><v-card><v-card-text><div class="editor-preview" v-html="content.html_content" /></v-card-text></v-card></v-col>
+          <v-col><v-card><v-card-text><div class="editor-preview" v-html="content.raw_content" /></v-card-text></v-card></v-col>
         </v-row>
         <!--        <v-row>-->
         <!--          <v-col>-->

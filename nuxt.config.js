@@ -24,7 +24,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/masonry.js', ssr: false },
-    { src: '~/plugins/vue-select', ssr: true }
+    { src: '~/plugins/vue-select', ssr: true },
+    { src: '~/plugins/intersection-observer.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

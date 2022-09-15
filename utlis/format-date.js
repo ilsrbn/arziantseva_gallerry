@@ -6,8 +6,13 @@ function isSafari () {
 }
 export default function (date, options = null) {
   if (!date) { return '' }
+  let dateval = date
+  if (typeof date === 'object') {
+    dateval = date._i
+  }
+  console.log(date)
   if (isSafari()) {
-    return date.replace(/-/g, '/')
+    return dateval.replace(/-/g, '/')
   }
   const defaultOptions = {
     year: 'numeric',

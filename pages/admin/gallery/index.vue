@@ -76,6 +76,7 @@
         <!--          </template>-->
         <!--        </template>-->
         <template #[`item.created_at`]="{ item }">
+          <!--          {{ formatDate(item.created_at) }}-->
           {{ formatDate($moment.utc(item.created_at).local()) }}
         </template>
         <template #[`item.updated_at`]="{ item }">
@@ -252,7 +253,7 @@ export default {
     async fetchItems () {
       const { data } = await this.$axios.$get('/admin/blog/items?post_id=2')
       console.log(data)
-      this.items.list = []
+      this.items.list = data
     },
     viewItem (index) {
       this.$router.push('/admin/gallery/' + index)

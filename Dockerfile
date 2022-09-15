@@ -4,20 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install \
-  --prefer-offline \
-  --frozen-lockfile \
-  --non-interactive \
-  --production=false
-
-RUN npm run generate
-
-RUN rm -rf node_modules && \
-  NODE_ENV=production npm install \
-  --prefer-offline \
-  --pure-lockfile \
-  --non-interactive \
-  --production=true
+RUN npm ci
 
 FROM node:16-alpine
 
@@ -28,4 +15,4 @@ COPY --from=builder /app  .
 ENV HOST 0.0.0.0
 EXPOSE 3000
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "dev" ]

@@ -250,8 +250,9 @@ export default {
       }
     },
     async fetchItems () {
-      const { data } = await this.$axios.$get('/admin/blog/items?post_id=2&nocache=' + Date.now())
-      this.items.list = data
+      const { data } = await this.$axios.$get('/admin/blog/items?post_id=2')
+      console.log(data)
+      this.items.list = []
     },
     viewItem (index) {
       this.$router.push('/admin/gallery/' + index)

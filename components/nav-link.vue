@@ -1,10 +1,10 @@
 <template>
-  <button class="wrapper" @click.prevent="navigate()">
+  <nuxt-link class="wrapper" :to="link">
     <span class="el" :class="{small}">
       <slot />
     </span>
     <div class="underscore" />
-  </button>
+  </nuxt-link>
 </template>
 
 <script>
@@ -40,14 +40,13 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  overflow: hidden;
   position: relative;
   display: inline-block;
+  text-decoration: none;
   .el {
     font-family: 'Inter', sans-serif;
     color: var(--text-main-color);
     cursor: pointer;
-    overflow: hidden;
 
     font-size: 20px;
     font-weight: 600;
@@ -64,16 +63,16 @@ export default {
   }
   .underscore {
     position: absolute;
-    border: 1px solid white;
-    height: 0;
-    width: 100%;
+    background: white;
+    height: 2px;
+    width: 0;
     bottom: 0;
-    left: -101%;
+    left: 0;
     transition: all 150ms ease-in;
   }
   &:hover {
     .underscore {
-      left: 0;
+      width: 100%;
     }
   }
 }

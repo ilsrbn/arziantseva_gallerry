@@ -3,18 +3,37 @@
     <h2 class="login__title">
       Login
     </h2>
-    <v-text-field v-model="email" :disabled="loading" label="Email" />
-    <v-text-field v-model="password" type="password" :disabled="loading" label="Password" />
-    <v-btn
-      :loading="loading"
-      :disabled="loading"
-      elevation="0"
-      block
-      class="login__button"
-      @click="submit"
-    >
-      Login
-    </v-btn>
+    <v-container>
+      <v-form class="form">
+        <v-text-field
+          ref="email"
+          v-model="email"
+          outlined
+          class="email"
+          :disabled="loading"
+          label="Email"
+        />
+        <v-text-field
+          v-model="password"
+          outlined
+          class="password"
+          type="password"
+          :disabled="loading"
+          label="Password"
+        />
+        <v-btn
+          type="submit"
+          :loading="loading"
+          :disabled="loading"
+          elevation="0"
+          block
+          class="login__button"
+          @click="submit"
+        >
+          Login
+        </v-btn>
+      </v-form>
+    </v-container>
   </div>
 </template>
 <script>
@@ -27,12 +46,8 @@ export default {
     password: null
   }),
   mounted () {
-    const status = this.$route.query.status
-    if (status === 'expired') {
-      this.$toast.show('Your session is expired. Please try login again', {
-        duration: 5000
-      })
-    }
+    const email = document.querySelector('.email input')
+    email.focus()
   },
   methods: {
     async submit () {
@@ -47,22 +62,10 @@ export default {
         this.$toast.success('Successfully logged in!')
         this.$router.push('/admin')
       } catch (e) {
-        // console.log(e.message)
         this.$toast.error(e.message)
-        // const errors = e.response.data.errors
-        // for (const name in errors) {
-        //   errors[name].forEach(el => this.$toast.error(el))
-        // }
       } finally {
         this.loading = false
       }
-      // const isMatch = this.compare(this.username, this.password)
-      // if (!isMatch) {
-      //   this.$toast.error('Bad credentials provided')
-      //   this.loading = false
-      //   return
-      // }
-      // this.setUser()
     }
   }
 }

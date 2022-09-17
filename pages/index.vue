@@ -21,15 +21,14 @@
 </template>
 
 <script>
-
+let observer
 export default {
   name: 'MainPage',
   data: () => ({
     pages: [],
     page: 1,
     limit: 15,
-    total: 15,
-    observer: null
+    total: 15
   }),
   async created () {
     try {
@@ -42,10 +41,10 @@ export default {
     }
   },
   beforeDestroy () {
-    this.observer.disconnect()
+    observer.disconnect()
   },
   mounted () {
-    this.observer = new IntersectionObserver((entries) => {
+    observer = new IntersectionObserver((entries) => {
       entries.forEach(async (entry) => {
         if (entry.isIntersecting) {
           if (this.page * this.limit <= this.total) {
@@ -60,7 +59,7 @@ export default {
     const el = document.querySelectorAll('.observable')
     console.log(el)
     el.forEach((element) => {
-      this.observer.observe(element)
+      observer.observe(element)
     })
   },
 

@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="footer__container">
-      <span>created by: </span><a href="https://t.me/Zhyvny">lsrbn</a> <span>&</span> <a href="https://www.instagram.com/krmisabitchh/">krmisabitcchh</a>
+      <span>created by: </span><a href="https://t.me/Zhyvny" target="_blank">lsrbn</a> <span>&</span> <a href="https://www.instagram.com/krmisabitchh/" target="_blank">krmisabitcchh</a>
     </div>
   </footer>
 </template>

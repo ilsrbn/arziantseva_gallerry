@@ -251,9 +251,11 @@ export default {
       }
     },
     async fetchItems () {
-      const { data } = await this.$axios.$get('/admin/blog/items?post_id=2')
-      console.log(data)
-      this.items.list = data
+      const { data } = await this.$axios.$get('/admin/blog/items?post_id=2&limit=9999')
+      this.items.list = data.map((el) => {
+        if (el.title.length > 28) { el.title = el.title.substring(0, 28) + '...' }
+        return el
+      })
     },
     viewItem (index) {
       this.$router.push('/admin/gallery/' + index)
@@ -262,8 +264,7 @@ export default {
       this.items.loading = true
       try {
         await this.$axios.$delete('/admin/blog/items/' + index)
-        const { data } = await this.$axios.$get('/admin/blog/items')
-        this.items.list = data
+        await this.fetchItems()
 
         this.$toast.show('Category deleted')
       } catch (e) {

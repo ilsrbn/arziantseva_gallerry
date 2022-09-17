@@ -15,9 +15,9 @@
           </ul>
         </nav>
         <div class="social">
-          <nav-link v-for="(icon, i) in social" :key="i" :link="'/'">
-            <img :src="require(`~/assets/icons/social/${icon}`)">
-          </nav-link>
+          <a :href="social[0].href" target="_blank">
+            <img :src="require(`~/assets/icons/social/inst.svg`)" alt="Social icons">
+          </a>
         </div>
       </div>
       <div class="header__right-mobile">
@@ -40,8 +40,8 @@
 
     <div v-show="menu" class="header__container-mobile-bottom">
       <div class="social">
-        <nav-link v-for="(icon, i) in social" :key="i" :link="'/'">
-          <img :src="require(`~/assets/icons/social/${icon}`)">
+        <nav-link v-for="(item, i) in social" :key="i" :link="item.href">
+          <img :src="require(`~/assets/icons/social/inst.svg`)" alt="Social icon">
         </nav-link>
       </div>
     </div>
@@ -70,7 +70,12 @@ export default {
         text: 'About me'
       }
     ],
-    social: ['inst.svg', 'fb.svg']
+    social: [
+      {
+        icon: 'inst.svg',
+        href: 'https://www.instagram.com/solemn_void/'
+      }
+    ]
   }),
   computed: {
     ...mapGetters({

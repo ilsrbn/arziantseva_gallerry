@@ -250,7 +250,7 @@ export default {
       }
     },
     async fetchItems () {
-      const { data } = await this.$axios.$get('/admin/blog/items?post_id=1')
+      const { data } = await this.$axios.$get('/admin/blog/items?post_id=1&limit=9999')
       this.items.list = data
     },
     viewItem (index) {
@@ -260,8 +260,7 @@ export default {
       this.items.loading = true
       try {
         await this.$axios.$delete('/admin/blog/items/' + index)
-        const { data } = await this.$axios.$get('/admin/blog/posts')
-        this.items.list = data
+        await this.fetchItems()
 
         this.$toast.show('Post deleted')
       } catch (e) {

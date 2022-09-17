@@ -13,7 +13,16 @@
           default: 16, 420: 8
         }"
       >
-        <img v-for="(img, id) in pages" :key="id" :src="img.file_url" :style="{ maxWidth: '100%', minWidth: '100%', marginBottom: '16px' }" alt="Portraits">
+        <img
+          v-for="(img, id) in pages"
+          :key="id"
+          :src="img.file_url"
+          :style="{ maxWidth: '100%', minWidth: '100%', marginBottom: '16px' }"
+          alt="Portraits"
+          @contextmenu.prevent
+          @drag.prevent
+          @dragstart.prevent
+        >
       </masonry>
     </client-only>
     <div class="observable" />

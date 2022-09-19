@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="login">
-    <h2 class="login__title">
-      Login
-    </h2>
+    <h2 class="login__title">Login</h2>
     <v-container>
       <v-form class="form">
         <v-text-field
@@ -28,7 +26,7 @@
           elevation="0"
           block
           class="login__button"
-          @click="submit"
+          @click.prevent="submit"
         >
           Login
         </v-btn>
@@ -38,37 +36,38 @@
 </template>
 <script>
 export default {
-  name: 'LoginPage',
-  layout: 'auth',
+  name: "LoginPage",
+  layout: "auth",
   data: () => ({
     loading: false,
     email: null,
-    password: null
+    password: null,
   }),
-  mounted () {
-    const email = document.querySelector('.email input')
-    email.focus()
+  mounted() {
+    const email = document.querySelector(".email input");
+    email.focus();
   },
   methods: {
-    async submit () {
-      this.loading = true
+    async submit() {
+      this.loading = true;
       try {
-        await this.$auth.loginWith('laravelJWT', {
+        await this.$auth.loginWith("laravelJWT", {
           data: {
             email: this.email,
-            password: this.password
-          }
-        })
-        this.$toast.success('Successfully logged in!')
-        this.$router.push('/admin')
+            password: this.password,
+          },
+        });
+        this.$toast.success("Successfully logged in!");
+        this.$router.push("/admin");
       } catch (e) {
-        this.$toast.error(e.message)
+        console.log(e);
+        this.$toast.error(e.message);
       } finally {
-        this.loading = false
+        this.loading = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -79,6 +78,5 @@ export default {
 
   &__button {
   }
-
 }
 </style>

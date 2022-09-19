@@ -7,10 +7,11 @@
           default: 4,
           2000: 3,
           1200: 2,
-          768: 1
+          768: 1,
         }"
         :gutter="{
-          default: 16, 420: 8
+          default: 16,
+          420: 8,
         }"
       >
         <img
@@ -22,7 +23,7 @@
           @contextmenu.prevent
           @drag.prevent
           @dragstart.prevent
-        >
+        />
       </masonry>
     </client-only>
     <div class="observable" />
@@ -30,63 +31,74 @@
 </template>
 
 <script>
-let observer
+let observer;
 export default {
-  name: 'MainPage',
+  name: "MainPage",
   data: () => ({
     pages: [],
     page: 1,
     limit: 15,
-    total: 15
+    total: 15,
   }),
-  async created () {
+  async created() {
     try {
-      const resp = await this.$axios.$get(`/blog/item-attachments?${this.query()}`)
-      this.total = resp.total
-      this.pages = resp.data
+      const resp = await this.$axios.$get(
+        `/blog/item-attachments?${this.query()}`
+      );
+      this.total = resp.total;
+      this.pages = resp.data;
     } catch (e) {
-      console.log(e)
-      this.$toast.error('Oops...\nSomething went wrong.')
+      console.log(e);
+      this.$toast.error("Oops...\nSomething went wrong.");
     }
   },
-  beforeDestroy () {
-    observer.disconnect()
+  beforeDestroy() {
+    observer.disconnect();
   },
-  mounted () {
-    observer = new IntersectionObserver((entries) => {
-      entries.forEach(async (entry) => {
-        if (entry.isIntersecting) {
-          if (this.page * this.limit <= this.total) {
-            this.page += 1
-            await this.fetch()
+  mounted() {
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(async (entry) => {
+          if (entry.isIntersecting) {
+            if (this.page * this.limit <= this.total) {
+              this.page += 1;
+              await this.fetch();
+            }
           }
-        }
-      })
-    }, {
-      rootMargin: '-65% 0px 0px 0px'
-    })
-    const el = document.querySelectorAll('.observable')
-    console.log(el)
+        });
+      },
+      {
+        rootMargin: "-65% 0px 0px 0px",
+      }
+    );
+    const el = document.querySelectorAll(".observable");
     el.forEach((element) => {
-      observer.observe(element)
-    })
+      observer.observe(element);
+    });
   },
 
   methods: {
-    query () {
-      return new URLSearchParams({ pagination: 1, page: this.page, limit: this.limit, order_by: '-id' }).toString()
+    query() {
+      return new URLSearchParams({
+        pagination: 1,
+        page: this.page,
+        limit: this.limit,
+        order_by: "-id",
+      }).toString();
     },
-    async fetch () {
+    async fetch() {
       try {
-        const resp = await this.$axios.$get(`/blog/item-attachments?${this.query()}`)
-        this.pages = [...this.pages, ...resp.data]
+        const resp = await this.$axios.$get(
+          `/blog/item-attachments?${this.query()}`
+        );
+        this.pages = [...this.pages, ...resp.data];
       } catch (e) {
-        console.log(e)
-        this.$toast.error('Oops...\nSomething went wrong.')
+        console.log(e);
+        this.$toast.error("Oops...\nSomething went wrong.");
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss">
 .view {

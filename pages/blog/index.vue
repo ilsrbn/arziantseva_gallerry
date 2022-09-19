@@ -58,9 +58,11 @@ export default {
   &.inverted {
     .post__images {
       flex: 0 0 55%;
+      order: 2;
     }
     .post__text {
       flex: 0 1 auto;
+      order: 1;
     }
   }
   &__images {

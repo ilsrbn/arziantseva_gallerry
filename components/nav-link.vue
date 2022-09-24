@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link class="wrapper" :to="link">
+  <nuxt-link class="wrapper" :to="link" @click.native="navigate()">
     <span class="el" :class="{small}">
       <slot />
     </span>
@@ -44,14 +44,13 @@ export default {
   display: inline-block;
   text-decoration: none;
   .el {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Raleway', sans-serif;
     color: var(--text-main-color);
     cursor: pointer;
 
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 24px;
-    letter-spacing: 0;
     text-align: left;
     &.small {
       font-style: normal;

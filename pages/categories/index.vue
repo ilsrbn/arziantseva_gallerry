@@ -16,13 +16,14 @@ export default {
     loading: true
   }),
   async created () {
-    try {
-      const { items: { data } } = await this.$axios.$get('/blog/posts/gallery?order_by=id&nocache=' + Date.now())
-      this.categories = data
-    } catch (e) {
-      console.log(e)
-      this.$toast.error(e)
-    }
+    await this.$router.push('/')
+    // try {
+    //   const { items: { data } } = await this.$axios.$get('/blog/posts/gallery?order_by=id&nocache=' + Date.now())
+    //   this.categories = data
+    // } catch (e) {
+    //   console.log(e)
+    //   this.$toast.error(e)
+    // }
   }
 }
 </script>

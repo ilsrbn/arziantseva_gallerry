@@ -22,13 +22,14 @@ export default {
   name: 'Blog',
   data: () => ({ posts: [] }),
   async created () {
-    try {
-      const { items: { data } } = await this.$axios.$get('/blog/posts/blog')
-      this.posts = data
-    } catch (e) {
-      this.$toast.error(e)
-      console.log(e)
-    }
+    await this.$router.push('/')
+    // try {
+    //   const { items: { data } } = await this.$axios.$get('/blog/posts/blog')
+    //   this.posts = data
+    // } catch (e) {
+    //   this.$toast.error(e)
+    //   console.log(e)
+    // }
   },
   methods: {
     formatDate (date) {
@@ -72,7 +73,7 @@ export default {
     flex: 0 1 auto;
   }
   &__date {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-style: normal;
     font-weight: 900;
     font-size: 36px;
@@ -85,7 +86,7 @@ export default {
   }
   &__content {
     h1 {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Raleway', sans-serif;
       font-style: normal !important;
       font-weight: 800 !important;
       font-size: 36px;

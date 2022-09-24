@@ -23,7 +23,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <AdminEditor class="editor-preview" v-model="content.raw_content" />
+            <AdminEditor v-model="content.raw_content" class="editor-preview" />
           </v-col>
         </v-row>
         <v-row>

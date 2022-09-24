@@ -1,6 +1,8 @@
 <template>
   <div class="view">
-    <h1 class="text-center header">{{ title }}</h1>
+    <h1 class="text-center header">
+      {{ title }}
+    </h1>
     <client-only>
       <masonry
         class="masonry"
@@ -33,15 +35,16 @@ export default {
     }
   },
   async created () {
-    try {
-      const data = await this.$axios.$get(`/blog/items/${this.path}`)
-
-      this.title = data.title
-      this.photos = data.attachments
-    } catch (e) {
-      this.$toast.error(e)
-      console.log(e)
-    }
+    await this.$router.push('/')
+    // try {
+    //   const data = await this.$axios.$get(`/blog/items/${this.path}`)
+    //
+    //   this.title = data.title
+    //   this.photos = data.attachments
+    // } catch (e) {
+    //   this.$toast.error(e)
+    //   console.log(e)
+    // }
   }
 }
 </script>

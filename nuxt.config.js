@@ -13,7 +13,9 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { href: 'https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;800&display=swap', rel: 'stylesheet' }
     ]
   },
 
@@ -24,9 +26,12 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/masonry.js', ssr: false },
-    { src: '~/plugins/vue-select', ssr: true },
-    { src: '~/plugins/intersection-observer.js', ssr: false }
+    { src: '~/plugins/vue-select', ssr: true }
   ],
+  loading: {
+    color: 'white',
+    height: '2px'
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

@@ -10,7 +10,6 @@ export default function (date, options = null) {
   if (typeof date === 'object') {
     dateval = date._i
   }
-  console.log(date)
   if (isSafari()) {
     return dateval.replace(/-/g, '/')
   }

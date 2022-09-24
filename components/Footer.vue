@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="footer__container">
-      <span>created by: </span><a href="https://t.me/Zhyvny" target="_blank">lsrbn</a> <span>&</span> <a href="https://www.instagram.com/krmisabitchh/" target="_blank">krmisabitcchh</a>
+      <span>created by: </span><a href="https://t.me/Zhyvny" target="_blank">lsrbn</a> <span>&</span> <span>Pavlo Pavlenko</span> <span>&</span> <a href="https://www.instagram.com/krmisabitchh/" target="_blank">krmisabitcchh</a>
     </div>
   </footer>
 </template>
@@ -26,6 +26,10 @@ footer {
     align-items: flex-start;
     gap: 4px;
     color: white;
+    * {
+      font-weight: 400 !important;
+      text-decoration: none !important;
+    }
   }
 }
 

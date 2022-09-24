@@ -57,14 +57,14 @@ export default {
   components: { LogoComponent },
   data: () => ({
     links: [
-      {
-        href: '/categories',
-        text: 'Categories'
-      },
-      {
-        href: '/blog',
-        text: 'Blog'
-      },
+      // {
+      //   href: '/categories',
+      //   text: 'Categories'
+      // },
+      // {
+      //   href: '/blog',
+      //   text: 'Blog'
+      // },
       {
         href: '/about-me',
         text: 'About me'

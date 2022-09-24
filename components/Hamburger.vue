@@ -40,4 +40,5 @@ export default {
 </script>
 
 <style scoped>
+@import "assets/hamburgers.css";
 </style>

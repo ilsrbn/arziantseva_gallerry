@@ -27,13 +27,13 @@
         <v-list-item @click="toHome()">
           <v-list-item-action><v-icon>mdi-exit-to-app</v-icon></v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="'Back to client site'"></v-list-item-title>
+            <v-list-item-title v-text="'Back to client site'" />
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="logout()" color="red">
+        <v-list-item color="red" @click="logout()">
           <v-list-item-action><v-icon>mdi-logout</v-icon></v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="'Logout'"></v-list-item-title>
+            <v-list-item-title v-text="'Logout'" />
           </v-list-item-content>
         </v-list-item>
       </v-list>

@@ -47,6 +47,7 @@ export default {
     font-family: 'Raleway', sans-serif;
     color: var(--text-main-color);
     cursor: pointer;
+    text-transform: lowercase;
 
     font-size: 20px;
     font-weight: 400;

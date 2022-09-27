@@ -29,7 +29,7 @@
         <nav>
           <ul>
             <li v-for="(link, i) in links" :key="i">
-              <nav-link :link="link.href" class="uppercase">
+              <nav-link :link="link.href">
                 {{ link.text }}
               </nav-link>
             </li>
@@ -57,14 +57,14 @@ export default {
   components: { LogoComponent },
   data: () => ({
     links: [
-      // {
-      //   href: '/categories',
-      //   text: 'Categories'
-      // },
-      // {
-      //   href: '/blog',
-      //   text: 'Blog'
-      // },
+      {
+        href: '/categories',
+        text: 'Categories'
+      },
+      {
+        href: '/blog',
+        text: 'Blog'
+      },
       {
         href: '/about-me',
         text: 'About me'
@@ -74,7 +74,7 @@ export default {
       {
         icon: 'inst.svg',
         href: 'https://www.instagram.com/solemn_void/'
-      }
+      },
     ]
   }),
   computed: {
@@ -99,7 +99,14 @@ export default {
 
 <style scoped lang="scss">
 header {
-  background: var(--background-color);
+  //background: var(--background-color);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 5px 1rem black;
+  //background: linear-gradient(to bottom, rgba(0, 0, 0, .85) 60%, rgba(0, 0, 0, 0));
+  @media screen and(max-width: 998px) {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  backdrop-filter: blur(50px);
   position: fixed;
   top: 0;
   left: 0;
@@ -107,7 +114,7 @@ header {
   flex-direction: column;
   width: 100%;
   max-width: 100vw;
-  padding: 41px 0 20px;
+  padding: 30px 0 30px;
   margin: 0;
   z-index: 500;
   &.mobile {
@@ -115,7 +122,7 @@ header {
   }
   .header__container {
     width: 100%;
-    max-width: calc(100% - 134px);
+    max-width: calc(100% - 88px);
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -155,7 +162,7 @@ header {
     }
   }
   .header__left {
-    margin-left: 102px;
+    margin-left: 165px;
     @media screen and (max-width: 1280px) {
       margin-left: 0;
     }
@@ -163,7 +170,7 @@ header {
   .header__right {
     display: flex;
     align-items: center;
-    gap: 7.96875vw;
+    gap: 4vw;
     @media screen and (max-width: 998px) {
       display: none;
     }
@@ -177,7 +184,7 @@ header {
   nav ul {
     display: flex;
     align-items: center;
-    gap: 46px;
+    gap: 90px;
   }
   .social {
     display: flex;

@@ -1,6 +1,6 @@
 <template>
-  <nav-link :link="'/'" class="uppercase logo">
-    Arziantseva
+  <nav-link :link="'/'" class="logo">
+    arziantseva
   </nav-link>
 </template>
 
@@ -13,8 +13,9 @@ export default {
 <style lang="scss">
 a.logo .el {
   text-decoration: none;
-  letter-spacing: .5em !important;
-  font-weight: 600 !important;
+  letter-spacing: .4em !important;
+  font-weight: 500 !important;
+  font-size: 25px !important;
 }
 
 </style>

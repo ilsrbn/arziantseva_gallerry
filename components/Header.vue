@@ -107,6 +107,7 @@ header {
     background: rgba(0, 0, 0, 0.4);
   }
   backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
   position: fixed;
   top: 0;
   left: 0;

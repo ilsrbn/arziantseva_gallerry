@@ -31,7 +31,7 @@ export default {
   display: flex;
   flex-direction: column;
   .view {
-    min-height: calc(100vh - 85px);
+    min-height: calc(100vh - 185px);
     margin: 85px auto 0;
     //margin-left and max-width updated dynamically using js
     //background: linear-gradient(to top, red, blue);

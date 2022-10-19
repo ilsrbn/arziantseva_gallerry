@@ -10,8 +10,8 @@
 }
 
 .hamburger.is-active .hamburger-inner, .hamburger.is-active .hamburger-inner::after, .hamburger.is-active .hamburger-inner::before, .hamburger-inner, .hamburger-inner::after, .hamburger-inner::before {
-  border-radius: 0;
-  background-color: white;
+  border-radius: 0 !important;
+  background-color: white !important;
 }
 
 html {

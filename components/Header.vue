@@ -15,8 +15,8 @@
           </ul>
         </nav>
         <div class="social">
-          <a :href="social[0].href" target="_blank">
-            <img :src="require(`~/assets/icons/social/inst.svg`)" alt="Social icons">
+          <a v-for="(item, i) in social" :key="i" :href="item.href">
+            <i :class="`ri-${item.icon}-line`" />
           </a>
         </div>
       </div>
@@ -40,9 +40,9 @@
 
     <div v-show="menu" class="header__container-mobile-bottom">
       <div class="social">
-        <nav-link v-for="(item, i) in social" :key="i" :link="item.href">
-          <img :src="require(`~/assets/icons/social/inst.svg`)" alt="Social icon">
-        </nav-link>
+        <a v-for="(item, i) in social" :key="i" :href="item.href">
+          <i :class="`ri-${item.icon}-line`" />
+        </a>
       </div>
     </div>
   </header>
@@ -72,9 +72,17 @@ export default {
     ],
     social: [
       {
-        icon: 'inst.svg',
+        icon: 'instagram',
         href: 'https://www.instagram.com/solemn_void/'
       },
+      {
+        icon: 'behance',
+        href: 'https://www.behance.net/kingbluelif7dc'
+      },
+      {
+        icon: 'telegram',
+        href: 'https://t.me/niemonalisa'
+      }
     ]
   }),
   computed: {
@@ -191,6 +199,9 @@ header {
     display: flex;
     align-items: center;
     gap: 14px;
+    a {
+      text-decoration: none;
+    }
   }
 }
 </style>

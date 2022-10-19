@@ -74,6 +74,20 @@ section {
     display: block;
   }
   .category {
+    // Font
+    font-family: 'Raleway',serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+
+    /* identical to box height */
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+
+    // Block
     margin: 0 20px;
     aspect-ratio: 0.857142857143;
     @media screen and (max-width: 500px) {
@@ -90,6 +104,7 @@ section {
     //transition: all 150ms ease-in;
     cursor: pointer;
     position: relative;
+    text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);
     &:before {
       content: "";
       position: absolute;
@@ -103,6 +118,7 @@ section {
     }
   }
   .category.hidden {
+    text-shadow: 0px 0px 15px rgba($color: black, $alpha: 0);
     &:before {
       background: rgba(0,0,0,.52);
     }
@@ -119,6 +135,21 @@ section {
   width: 100%;
 }
 .category {
+  // Font
+  font-family: 'Raleway',serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 38px;
+
+  /* identical to box height */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  color: #FFFFFF;
+  text-shadow: 0px 0px 15px rgba($color: black, $alpha: 0);
+
+  // Block
   margin: 0 20px;
   aspect-ratio: 0.857142857143;
   display: flex;
@@ -129,7 +160,7 @@ section {
   background-size: cover;
   max-width: 100%;
   //background: rgba($color: white, $alpha: 0);
-  //transition: all 150ms ease-in;
+  transition: all 150ms ease-in;
   cursor: pointer;
   position: relative;
   &:before {
@@ -141,6 +172,7 @@ section {
     transition: all 300ms ease-out;
   }
   &:hover {
+    text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);
     &:before {
       background: rgba(0, 0, 0, 0);
     }

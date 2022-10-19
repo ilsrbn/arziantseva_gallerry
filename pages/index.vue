@@ -40,7 +40,7 @@ export default {
     limit: 15,
     total: 15
   }),
-  async created () {
+  async fetch () {
     try {
       const resp = await this.$axios.$get(
         `/blog/item-attachments?${this.query()}`

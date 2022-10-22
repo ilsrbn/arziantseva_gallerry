@@ -1,5 +1,5 @@
 <template>
-  <header :class="{'mobile': menu}">
+  <header id="header" :class="{'mobile': menu}">
     <div class="header__container">
       <div class="header__left">
         <LogoComponent />
@@ -105,7 +105,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 header {
   //background: var(--background-color);
   background: rgba(0, 0, 0, 0.4);

@@ -1,5 +1,6 @@
 <template>
-  <div class="view">
+  <div>
+    <SliderView v-model="selectedSlide" :gallery="pages" :length="pages.length" />
     <client-only>
       <masonry
         class="masonry"
@@ -20,6 +21,7 @@
           :src="img.file_url"
           :style="{ maxWidth: '100%', minWidth: '100%', marginBottom: '16px' }"
           alt="Portraits"
+          @click="selectedSlide = id"
           @contextmenu.prevent
           @drag.prevent
           @dragstart.prevent
@@ -38,7 +40,9 @@ export default {
     pages: [],
     page: 1,
     limit: 15,
-    total: 15
+    total: 15,
+
+    selectedSlide: -1
   }),
   async fetch () {
     try {
@@ -50,6 +54,14 @@ export default {
     } catch (e) {
       console.log(e)
       this.$toast.error('Oops...\nSomething went wrong.')
+    }
+  },
+  watch: {
+    async selectedSlide () {
+      if (this.selectedSlide === this.pages.length - 1 && (this.page * this.limit <= this.total)) {
+        this.page += 1
+        await this.fetch()
+      }
     }
   },
   beforeDestroy () {

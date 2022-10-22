@@ -38,6 +38,8 @@ export default {
     width: 100%;
     max-width: calc(100% - 88px);
     padding-bottom: 50px;
+
+    position: relative;
     @media screen and (max-width: 998px) {
       max-width: calc(100% - 32px);
     }

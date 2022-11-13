@@ -1,26 +1,15 @@
 <template>
   <div class="layout layout__default">
     <Header />
-    <nuxt keep-alive class="view" />
+    <nuxt class="view" />
     <Footer class="footer" />
   </div>
 </template>
 
 <script>
-// import { mapMutations } from 'vuex'
 
 export default {
   name: 'DefaultLayout'
-  // methods: {
-  //   ...mapMutations({
-  //     resetMenu: 'menu/resetMenu'
-  //   })
-  // },
-  // watch: {
-  //   '$route' () {
-  //     this.resetMenu()
-  //   }
-  // }
 }
 </script>
 

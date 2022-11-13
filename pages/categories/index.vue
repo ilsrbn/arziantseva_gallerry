@@ -5,30 +5,19 @@
         {{ formatTitle(category.title) }}
       </div>
     </div>
-    <div class="page__container-mobile">
-      <VueSlickCarousel v-bind="slider.setting" @beforeChange="(oldId, id) => slider.active = id + 1">
-        <div v-for="(category, i) in categories" :key="i" @click="$router.push(`/categories/${category.id}`)">
-          <div class="category" :class="{ hidden: slider.active !== i + 1 }">
-            {{ formatTitle(category.title) }}
-          </div>
-        </div>
-      </VueSlickCarousel>
-      <div class="slider__data">
-        <span>{{ slider.active }}</span>/<span>{{ categories.length }}</span>
-      </div>
-    </div>
   </section>
 </template>
 
 <script>
+/**
+ * @typedef Category
+ * @property {number} id
+ * @property {string} title
+ * @property {string} [cover]
+ * */
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Categories',
-  async asyncData ({ $axios }) {
-    const { items: { data } } = await $axios.$get('/blog/posts/gallery?order_by=id')
-    const categories = data
-    return { categories }
-  },
   data: () => ({
     slider: {
       setting: {
@@ -41,8 +30,23 @@ export default {
       },
       active: 1
     },
-    loading: true
+    loading: true,
+    /**
+     * @type {Array<Category>}
+     * */
+    categories: []
   }),
+  async created () {
+    const { items: { data } } = await this.$axios.$get('/blog/posts/gallery?order_by=id')
+
+    this.categories = data.map(
+      (category) => {
+        return {
+          id: category.id,
+          title: category.title
+        }
+      })
+  },
   methods: {
     formatTitle (title) {
       return title.length > 12 ? title.substr(0, 12) + '...' : title

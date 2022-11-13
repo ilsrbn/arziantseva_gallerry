@@ -1,33 +1,29 @@
 <template>
   <div>
-    <SliderView v-model="selectedSlide" :gallery="pages" :length="pages.length" />
-    <client-only>
-      <masonry
-        class="masonry"
-        :cols="{
-          default: 4,
-          2000: 3,
-          1200: 2,
-          768: 1,
-        }"
-        :gutter="{
-          default: 16,
-          420: 8,
-        }"
+    <masonry
+      class="masonry"
+      :cols="{
+        default: 4,
+        2000: 3,
+        1200: 2,
+        768: 1,
+      }"
+      :gutter="{
+        default: 16,
+        420: 8,
+      }"
+    >
+      <img
+        v-for="(img, id) in pages"
+        :key="id"
+        :src="img.file_url"
+        :style="{ maxWidth: '100%', minWidth: '100%', marginBottom: '16px', cursor: 'pointer' }"
+        alt="Portraits"
+        @contextmenu.prevent
+        @drag.prevent
+        @dragstart.prevent
       >
-        <img
-          v-for="(img, id) in pages"
-          :key="id"
-          :src="img.file_url"
-          :style="{ maxWidth: '100%', minWidth: '100%', marginBottom: '16px' }"
-          alt="Portraits"
-          @click="selectedSlide = id"
-          @contextmenu.prevent
-          @drag.prevent
-          @dragstart.prevent
-        >
-      </masonry>
-    </client-only>
+    </masonry>
     <div class="observable" />
   </div>
 </template>
@@ -44,24 +40,26 @@ export default {
 
     selectedSlide: -1
   }),
-  async fetch () {
-    try {
-      const resp = await this.$axios.$get(
-        `/blog/item-attachments?${this.query()}`
-      )
-      this.total = resp.total
-      this.pages = resp.data
-    } catch (e) {
-      console.log(e)
-      this.$toast.error('Oops...\nSomething went wrong.')
-    }
-  },
   watch: {
     async selectedSlide () {
       if (this.selectedSlide === this.pages.length - 1 && (this.page * this.limit <= this.total)) {
         this.page += 1
         await this.fetch()
       }
+    }
+  },
+  async created () {
+    try {
+      const resp = await this.$axios.$get(
+        `/blog/item-attachments?${this.query()}`
+      )
+      // console.table(resp.data)
+
+      this.total = resp.total
+      this.pages = resp.data
+    } catch (e) {
+      // console.log(e)
+      this.$toast.error('Oops...\nSomething went wrong.')
     }
   },
   beforeDestroy () {
@@ -105,7 +103,7 @@ export default {
         )
         this.pages = [...this.pages, ...resp.data]
       } catch (e) {
-        console.log(e)
+        // console.log(e)
         this.$toast.error('Oops...\nSomething went wrong.')
       }
     }

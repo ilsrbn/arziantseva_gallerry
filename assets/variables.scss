@@ -23,6 +23,9 @@ html {
   --background-color: #000;
   //background: var(--background-color);
 }
+body {
+  background-color: var(--background-color);
+}
 .layout__default * {
   color: var(--text-main-color);
   letter-spacing: .1em;

@@ -5,10 +5,10 @@
         <span>created by: </span>
       </div>
       <div>
-        <a href="https://t.me/Zhyvny" target="_blank">Illia Serbin</a> <span class="delimiter">&</span>
+        <a href="https://www.instagram.com/krmisabitchh/" target="_blank">krmisabitcchh</a> <span class="delimiter">&</span>
       </div>
       <div><a href="https://t.me/yseffk" target="_blank">Pavlo Pavlenko</a> <span class="delimiter">&</span></div>
-      <div><a href="https://www.instagram.com/krmisabitchh/" target="_blank">krmisabitcchh</a></div>
+      <div><a href="https://t.me/ilsrbn" target="_blank">Ilia Serbin</a> </div>
     </div>
   </footer>
 </template>

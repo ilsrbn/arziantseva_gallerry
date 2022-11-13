@@ -105,7 +105,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 header {
   //background: var(--background-color);
   background: rgba(0, 0, 0, 0.4);
@@ -113,6 +113,7 @@ header {
   //background: linear-gradient(to bottom, rgba(0, 0, 0, .85) 60%, rgba(0, 0, 0, 0));
   @media screen and(max-width: 998px) {
     background: rgba(0, 0, 0, 0.4);
+    padding: 14px 0;
   }
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);

@@ -14,6 +14,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+body {
+  background-color: var(--background-color);
+}
 .layout {
   background: var(--background-color);
   width: 100%;

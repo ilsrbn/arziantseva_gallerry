@@ -1,39 +1,37 @@
 <template>
-  <section>
+  <section v-if="categories.length">
     <div class="page__container">
       <div v-for="(category, i) in categories" :key="i" class="category" @click="$router.push(`/categories/${category.id}`)">
         {{ formatTitle(category.title) }}
       </div>
     </div>
+    <div class="page__container-mobile">
+      <swiper :options="options">
+        <swiper-slide v-for="(category, i) in categories" :key="i">
+          <div class="category" @click="$router.push(`/categories/${category.id}`)">
+            <img src="~/assets/images/under_construction.webp">
+            <span>{{ formatTitle(category.title) }}</span>
+          </div>
+        </swiper-slide>
+      </swiper>
+    </div>
   </section>
 </template>
 
 <script>
-/**
- * @typedef Category
- * @property {number} id
- * @property {string} title
- * @property {string} [cover]
- * */
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Categories',
   data: () => ({
-    slider: {
-      setting: {
-        centerMode: true,
-        centerPadding: '40px',
-        slidesToShow: 1,
-        arrows: false,
-        slidesToScroll: 1,
-        draggable: false
-      },
-      active: 1
+    options: {
+      centeredSlides: true,
+      spaceBetween: 30,
+      slidesPerView: 1.5,
+      slidesPerGroup: 1,
+      loop: true
     },
-    loading: true,
-    /**
-     * @type {Array<Category>}
-     * */
+
     categories: []
   }),
   async created () {
@@ -56,88 +54,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
-section {
-}
+
+// Desktop + Tablet Grid
 .page__container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: calc((100vw - 60px) / 3 * 1.2);
   gap: 30px;
-  padding-top: 107px;
+
   @media screen and (max-width: 1200px) {
     grid-template-columns: 1fr 1fr;
   }
   @media screen and (max-width: 768px) {
     display: none;
   }
-}
-.page__container-mobile {
-  display: none;
-  margin-top: auto;
-  margin-bottom: auto;
-  @media screen and (max-width: 768px) {
-    display: block;
-  }
-  .category {
-    // Font
-    font-family: 'Raleway',serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 24px;
 
-    /* identical to box height */
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-
-    color: #FFFFFF;
-
-    // Block
-    margin: 0 20px;
-    aspect-ratio: 0.857142857143;
-    @media screen and (max-width: 500px) {
-      aspect-ratio: 0.5;
-    }
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url("~/assets/images/under_construction.webp");
-    background-position: center;
-    background-size: cover;
-    max-width: 100%;
-    //background: rgba($color: white, $alpha: 0);
-    //transition: all 150ms ease-in;
-    cursor: pointer;
-    position: relative;
-    text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);
-    &:before {
-      content: "";
-      position: absolute;
-      left: 0; right: 0;
-      top: 0; bottom: 0;
-      background: rgba(0,0,0,.0);
-      transition: all 300ms ease-out;
-    }
-    &:hover {
-      //background: rgba($color: white, $alpha: .2);
-    }
-  }
-  .category.hidden {
-    text-shadow: 0px 0px 15px rgba($color: black, $alpha: 0);
-    &:before {
-      background: rgba(0,0,0,.52);
-    }
-  }
-}
-.slider__data {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  margin-top: 12px;
-  text-align: center;
-  justify-content: center;
-  width: 100%;
-}
 .category {
   // Font
   font-family: 'Raleway',serif;
@@ -146,7 +77,6 @@ section {
   font-size: 32px;
   line-height: 38px;
 
-  /* identical to box height */
   letter-spacing: 0.1em;
   text-transform: uppercase;
 
@@ -154,8 +84,6 @@ section {
   text-shadow: 0px 0px 15px rgba($color: black, $alpha: 0);
 
   // Block
-  margin: 0 20px;
-  aspect-ratio: 0.857142857143;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +91,7 @@ section {
   background-position: center;
   background-size: cover;
   max-width: 100%;
-  //background: rgba($color: white, $alpha: 0);
+
   transition: all 150ms ease-in;
   cursor: pointer;
   position: relative;
@@ -179,6 +107,56 @@ section {
     text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);
     &:before {
       background: rgba(0, 0, 0, 0);
+    }
+  }
+}
+}
+@media screen and (max-width: 768px) {
+  section {
+    display: flex;
+  }
+}
+// Mobile slider
+.page__container-mobile {
+  display: none;
+  width: inherit;
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
+  align-items: center;
+  min-height: 100%;
+  .category {
+    position: relative;
+    img {
+
+      object-fit: cover;
+      max-width: 100%;
+    }
+    span {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+
+      font-family: 'Raleway',serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 38px;
+
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+
+      color: #FFFFFF;
+    }
+  }
+  .swiper-slide {
+    opacity: 0.4;
+    transition: all 300ms ease-in;
+    &-active {
+      opacity: 1;
     }
   }
 }

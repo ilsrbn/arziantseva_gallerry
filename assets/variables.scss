@@ -21,10 +21,8 @@ html {
   --secondary-color: #FFCEE4;
   --text-main-color: white;
   --background-color: #000;
+  height: 100%;
   //background: var(--background-color);
-}
-body {
-  background-color: var(--background-color);
 }
 .layout__default * {
   color: var(--text-main-color);

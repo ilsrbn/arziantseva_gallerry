@@ -3,10 +3,13 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   target: 'static',
   mode: 'spa',
+  server: {
+    host: '0.0.0.0'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - frontend',
-    title: 'frontend',
+    titleTemplate: 'ramzes gallery',
+    title: 'ramzes gallery',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -30,7 +33,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/masonry', ssr: false },
-    { src: '~/plugins/vue-select', ssr: false }
+    { src: '~/plugins/vue-select', ssr: false },
+    { src: '~/plugins/swiper' }
   ],
   loading: {
     color: 'white',

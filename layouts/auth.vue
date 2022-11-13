@@ -16,6 +16,9 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: white;
+}
 .auth {
   height: 100vh;
   width: 100vw;

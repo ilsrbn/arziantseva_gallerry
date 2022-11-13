@@ -22,7 +22,7 @@
                 <v-card-title>Create category</v-card-title>
                 <v-card-subtitle>Enter category title</v-card-subtitle>
                 <v-card-text>
-                  <v-form v-model="category.valid">
+                  <v-form v-model="category.valid" @submit.prevent>
                     <v-text-field
                       v-model="category.title"
                       required
@@ -34,7 +34,14 @@
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn :loading="loading" :disabled="loading" rounded color="green" @click="createCategory()">
+                  <v-btn
+                    :loading="loading"
+                    :disabled="loading"
+                    rounded
+                    color="green"
+                    type="submit"
+                    @click="createCategory"
+                  >
                     Create Category <v-icon right>
                       mdi-plus
                     </v-icon>

@@ -3,7 +3,8 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 export default {
-  mode: "spa",
+  target: "server",
+  ssr: false,
   server: {
     host: "127.0.0.1",
     port: "6789",

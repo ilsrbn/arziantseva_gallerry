@@ -7,10 +7,9 @@
 </template>
 
 <script>
-
 export default {
-  name: 'DefaultLayout'
-}
+  name: "DefaultLayout",
+};
 </script>
 
 <style scoped lang="scss">

@@ -99,7 +99,9 @@ export default {
   max-height: 525px;
   width: 100vw;
   width: 100svw;
-
+  @media screen and (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
   &.inverted {
     .post__images {
       order: 2;
@@ -114,6 +116,9 @@ export default {
     max-height: inherit;
     max-width: 100%;
     overflow: hidden;
+    @media screen and (max-width: 980px) {
+      display: none;
+    }
 
     img {
       max-height: inherit;
@@ -142,21 +147,25 @@ export default {
   }
 
   &__content {
+    height: 50%;
+    overflow: hidden;
+    margin-top: calc(4em * 1.2);
     h1 {
-      font-family: "Raleway", sans-serif;
-      font-style: normal !important;
-      font-weight: 800 !important;
+      font-family: Raleway;
       font-size: 36px;
-      line-height: 44px;
-
-      /* identical to box height */
-      text-transform: uppercase;
-      margin-bottom: 50px;
-      text-decoration: none;
+      font-weight: 800;
+      line-height: 42px;
+      letter-spacing: 0.1em;
+      text-align: left;
     }
 
     p {
       margin-bottom: 25px;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 23px;
+      letter-spacing: 0.1em;
+      text-align: left;
     }
   }
 }

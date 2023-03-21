@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="blog-post">
     <h1>{{ post.title }}</h1>
     <p>{{ formatDate(new Date(post.updated_at)) }}</p>
     <div class="gallery">
@@ -57,19 +57,68 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.swiper-slide {
-  width: auto;
-}
-h1 {
-  text-align: center;
-}
-p {
-  text-align: right;
-  margin-block: 0.5em;
-  line-height: 1.2em;
-}
-hr {
-  margin-block: 2rem;
+<style lang="scss">
+.blog-post {
+  .swiper-slide {
+    width: auto;
+  }
+  h1 {
+    text-align: center;
+  }
+  p {
+    text-align: right;
+    margin-block: 0.5em;
+    line-height: 1.2em;
+  }
+  hr {
+    margin-block: 2rem;
+  }
+  h1,
+  p,
+  hr,
+  .content {
+    margin-inline: auto;
+    padding-inline: 24px;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .content {
+    p {
+      text-align: unset;
+    }
+    h1 {
+      font-size: 2em;
+      text-align: unset;
+    }
+    h2 {
+      font-size: 1.5em;
+    }
+    h3 {
+      font-size: 1.17em;
+    }
+    h4 {
+      font-size: 1em;
+    }
+    h5 {
+      font-size: 0.83em;
+    }
+    h6 {
+      font-size: 0.67em;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    img {
+      display: block;
+      line-height: 1.2em;
+      margin-block: 2rem;
+      width: 100%;
+    }
+  }
 }
 </style>

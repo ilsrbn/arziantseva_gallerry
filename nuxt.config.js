@@ -3,9 +3,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 export default {
-  target: "static",
   mode: "spa",
   server: {
+    host: "127.0.0.1",
     port: "6789",
   },
   // Global page headers: https://go.nuxtjs.dev/config-head

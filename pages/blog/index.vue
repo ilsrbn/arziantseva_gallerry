@@ -1,16 +1,27 @@
 <template>
   <section class="blog-layout">
     <div class="blog-layout__wrapper">
-      <div v-for="(post, i) in posts" :key="i" class="post" :class="{inverted: i % 2 !== 0}">
+      <div
+        v-for="(post, i) in posts"
+        :key="i"
+        class="post"
+        :class="{ inverted: post.meta.inverted }"
+      >
         <div class="post__images">
-          <div class="post__images-wrapper" />
+          <swiper :options="options">
+            <swiper-slide v-for="image in post.featured_photos" :key="image">
+              <img :src="image" height="525" />
+            </swiper-slide>
+          </swiper>
         </div>
         <div class="post__text">
-          <h1>{{ post.title }}</h1>
+          <nuxt-link :to="post.meta.href">
+            <h1>{{ post.title }}</h1>
+          </nuxt-link>
           <span class="post__date">
             {{ formatDate(new Date(post.updated_at)) }}
           </span>
-          <div class="post__content" v-html="post.content" />
+          <div class="post__content" v-html="post.content"></div>
         </div>
       </div>
     </div>
@@ -20,33 +31,61 @@
 <script>
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Blog',
-  data: () => ({ posts: [] }),
-  async created () {
-    await this.fetch()
+  name: "Blog",
+  data: () => ({
+    posts: [],
+    options: {
+      speed: 1000,
+      spaceBetween: 25,
+      height: 525,
+      slidesPerGroup: 1,
+      slidesPerView: "auto",
+      loop: true,
+      autoplay: {
+        delay: 5000,
+      },
+    },
+  }),
+  async created() {
+    await this.fetch();
   },
   methods: {
-    async fetch () {
+    async fetch() {
       try {
-        const resp = await this.$axios.$get('/post')
-        this.posts = resp.data
+        const resp = await this.$axios.$get("/post");
+        this.posts = this.mapPost(resp.data);
       } catch (e) {
-        console.error({ e })
+        console.error({ e });
       }
     },
-    formatDate (date) {
-      return date.toLocaleDateString().replaceAll('/', '.')
-    }
-  }
-}
+    formatDate(date) {
+      return date.toLocaleDateString().replaceAll("/", ".");
+    },
+    mapPost(data) {
+      return data.map((post, i) => ({
+        ...post,
+        meta: { inverted: i % 2, href: `/blog/${post.id}` },
+      }));
+    },
+  },
+};
 </script>
 
 <style lang="scss">
+.swiper-container {
+  max-height: 100%;
+}
+
+.swiper-slide {
+  width: auto;
+}
+
 .blog-layout {
   margin-left: 0 !important;
   margin-right: 0 !important;
   max-width: 100vw !important;
 }
+
 .blog-layout__wrapper {
   margin-top: 100px;
   display: flex;
@@ -55,40 +94,56 @@ export default {
 }
 
 .post {
-  display: flex;
-  align-items: center;
-  gap: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-height: 525px;
+  width: 100vw;
+  width: 100svw;
+
   &.inverted {
     .post__images {
-      flex: 0 0 55%;
       order: 2;
     }
+
     .post__text {
-      flex: 0 1 auto;
       order: 1;
     }
   }
+
   &__images {
-    flex: 0 0 50%;
+    max-height: inherit;
+    max-width: 100%;
+    overflow: hidden;
+
+    img {
+      max-height: inherit;
+    }
   }
+
   &__text {
     flex: 0 1 auto;
+    margin-inline: 50px;
+    -webkit-box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
   }
-  &__date {
-    font-family: 'Raleway', sans-serif;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 36px;
-    line-height: 44px;
 
-    /* identical to box height */
+  &__date {
+    font-family: "Raleway";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 42px;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: black;
-    -webkit-text-stroke: 1px white;
+
+    color: #d9d9d9;
   }
+
   &__content {
     h1 {
-      font-family: 'Raleway', sans-serif;
+      font-family: "Raleway", sans-serif;
       font-style: normal !important;
       font-weight: 800 !important;
       font-size: 36px;
@@ -99,6 +154,7 @@ export default {
       margin-bottom: 50px;
       text-decoration: none;
     }
+
     p {
       margin-bottom: 25px;
     }

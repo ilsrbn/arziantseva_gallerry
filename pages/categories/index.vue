@@ -14,8 +14,11 @@
     <div class="page__container-mobile">
       <swiper :options="options">
         <swiper-slide v-for="(category, i) in categories" :key="i">
-          <div class="category" @click="$router.push(`/categories/${category.id}`)">
-            <img :src="category.cover">
+          <div
+            class="category"
+            @click="$router.push(`/categories/${category.id}`)"
+          >
+            <img :src="category.cover" />
             <span>{{ formatTitle(category.title) }}</span>
           </div>
         </swiper-slide>
@@ -25,46 +28,42 @@
 </template>
 
 <script>
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Categories',
+  name: "Categories",
   data: () => ({
     options: {
       centeredSlides: true,
       spaceBetween: 30,
       slidesPerView: 1.5,
       slidesPerGroup: 1,
-      loop: true
+      loop: true,
     },
 
-    categories: []
+    categories: [],
   }),
-  async created () {
-    await this.fetch()
+  async created() {
+    await this.fetch();
   },
   methods: {
-    async fetch () {
-      const resp = await this.$axios.$get('/category?')
-      this.categories = resp.data.map(
-        (category) => {
-          return {
-            id: category.id,
-            title: category.title,
-            cover: category.cover.file_url
-          }
-        }
-      )
+    async fetch() {
+      const resp = await this.$axios.$get("/category?");
+      this.categories = resp.data.map((category) => {
+        return {
+          id: category.id,
+          title: category.title,
+          cover: category.cover.file_url,
+        };
+      });
     },
-    formatTitle (title) {
-      return title.length > 12 ? title.substr(0, 12) + '...' : title
-    }
-  }
-}
+    formatTitle(title) {
+      return title.length > 12 ? title.substr(0, 12) + "..." : title;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
-
 // Desktop + Tablet Grid
 .page__container {
   display: grid;
@@ -75,76 +74,89 @@ export default {
   @media screen and (max-width: 1200px) {
     grid-template-columns: 1fr 1fr;
   }
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 
-.category {
-  // Font
-  font-family: 'Raleway',serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 32px;
-  line-height: 38px;
+  .category {
+    // Font
+    font-family: "Raleway", serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
 
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 
-  color: #FFFFFF;
-  text-shadow: 0px 0px 15px rgba($color: black, $alpha: 0);
+    color: #ffffff;
+    text-shadow: 0px 0px 15px rgba($color: black, $alpha: 0);
 
-  // Block
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-image: url("~/assets/images/under_construction.webp");
-  background-position: center;
-  background-size: cover;
-  max-width: 100%;
+    // Block
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("~/assets/images/under_construction.webp");
+    background-position: center;
+    background-size: cover;
+    max-width: 100%;
 
-  transition: all 150ms ease-in;
-  cursor: pointer;
-  position: relative;
-  &:before {
-    content: "";
-    position: absolute;
-    left: 0; right: 0;
-    top: 0; bottom: 0;
-    background: rgba(0,0,0,.52);
-    transition: all 300ms ease-out;
-  }
-  span {
-    z-index: 50;
-  }
-  &:hover {
-    text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);
+    transition: all 150ms ease-in;
+    cursor: pointer;
+    position: relative;
+
     &:before {
-      background: rgba(0, 0, 0, 0);
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.52);
+      transition: all 300ms ease-out;
+    }
+
+    span {
+      z-index: 50;
+    }
+
+    &:hover {
+      text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);
+
+      &:before {
+        background: rgba(0, 0, 0, 0);
+      }
     }
   }
 }
-}
+
 @media screen and (max-width: 768px) {
   section {
     display: flex;
   }
 }
+
 // Mobile slider
 .page__container-mobile {
   display: none;
   width: inherit;
+
   @media screen and (max-width: 768px) {
     display: flex;
   }
+
   align-items: center;
   min-height: 100%;
+
   .category {
     position: relative;
-    img {
 
+    img {
       object-fit: cover;
       max-width: 100%;
     }
+
     span {
       position: absolute;
       inset: 0;
@@ -153,7 +165,7 @@ export default {
       justify-content: center;
       align-items: center;
 
-      font-family: 'Raleway',serif;
+      font-family: "Raleway", serif;
       font-style: normal;
       font-weight: 400;
       font-size: 32px;
@@ -162,12 +174,14 @@ export default {
       letter-spacing: 0.1em;
       text-transform: uppercase;
 
-      color: #FFFFFF;
+      color: #ffffff;
     }
   }
+
   .swiper-slide {
     opacity: 0.4;
     transition: all 300ms ease-in;
+
     &-active {
       opacity: 1;
     }

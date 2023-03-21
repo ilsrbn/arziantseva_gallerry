@@ -40,26 +40,15 @@ export default {
 
     selectedSlide: -1
   }),
+  async fetch () {
+    await this.fetch()
+  },
   watch: {
     async selectedSlide () {
       if (this.selectedSlide === this.pages.length - 1 && (this.page * this.limit <= this.total)) {
         this.page += 1
         await this.fetch()
       }
-    }
-  },
-  async created () {
-    try {
-      const resp = await this.$axios.$get(
-        `/blog/item-attachments?${this.query()}`
-      )
-      // console.table(resp.data)
-
-      this.total = resp.total
-      this.pages = resp.data
-    } catch (e) {
-      // console.log(e)
-      this.$toast.error('Oops...\nSomething went wrong.')
     }
   },
   beforeDestroy () {
@@ -90,18 +79,17 @@ export default {
   methods: {
     query () {
       return new URLSearchParams({
-        pagination: 1,
         page: this.page,
-        limit: this.limit,
-        order_by: '-id'
+        limit: this.limit
       }).toString()
     },
     async fetch () {
       try {
         const resp = await this.$axios.$get(
-          `/blog/item-attachments?${this.query()}`
+          `/photo?${this.query()}`
         )
         this.pages = [...this.pages, ...resp.data]
+        this.total = resp.meta.totalItems
       } catch (e) {
         // console.log(e)
         this.$toast.error('Oops...\nSomething went wrong.')

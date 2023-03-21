@@ -1,5 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
+import * as dotenv from 'dotenv'
 
+dotenv.config()
 export default {
   target: 'static',
   mode: 'spa',
@@ -122,7 +124,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://back.ramzes.serbin.co/api'
+    baseURL: process.env.API_URL || 'https://back.ramzes.serbin.co/api'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

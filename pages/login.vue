@@ -5,31 +5,10 @@
     </h2>
     <v-container>
       <v-form class="form">
-        <v-text-field
-          ref="email"
-          v-model="email"
-          outlined
-          class="email"
-          :disabled="loading"
-          label="Email"
-        />
-        <v-text-field
-          v-model="password"
-          outlined
-          class="password"
-          type="password"
-          :disabled="loading"
-          label="Password"
-        />
-        <v-btn
-          type="submit"
-          :loading="loading"
-          :disabled="loading"
-          elevation="0"
-          block
-          class="login__button"
-          @click.prevent="submit"
-        >
+        <v-text-field ref="email" v-model="email" outlined class="email" :disabled="loading" label="Email" />
+        <v-text-field v-model="password" outlined class="password" type="password" :disabled="loading" label="Password" />
+        <v-btn type="submit" :loading="loading" :disabled="loading" elevation="0" block class="login__button"
+          @click.prevent="submit">
           Login
         </v-btn>
       </v-form>
@@ -45,12 +24,12 @@ export default {
     email: null,
     password: null
   }),
-  mounted () {
+  mounted() {
     const email = document.querySelector('.email input')
     email.focus()
   },
   methods: {
-    async submit () {
+    async submit() {
       this.loading = true
       try {
         await this.$auth.loginWith('laravelJWT', {
@@ -78,7 +57,5 @@ export default {
     font-weight: normal;
   }
 
-  &__button {
-  }
 }
 </style>

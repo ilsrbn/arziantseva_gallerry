@@ -1,15 +1,21 @@
 <template>
   <section v-if="categories.length">
     <div class="page__container">
-      <div v-for="(category, i) in categories" :key="i" class="category" @click="$router.push(`/categories/${category.id}`)">
-        {{ formatTitle(category.title) }}
+      <div
+        v-for="(category, i) in categories"
+        :key="i"
+        class="category"
+        @click="$router.push(`/categories/${category.id}`)"
+        :style="{ backgroundImage: `url(${category.cover})` }"
+      >
+        <span>{{ formatTitle(category.title) }}</span>
       </div>
     </div>
     <div class="page__container-mobile">
       <swiper :options="options">
         <swiper-slide v-for="(category, i) in categories" :key="i">
           <div class="category" @click="$router.push(`/categories/${category.id}`)">
-            <img src="~/assets/images/under_construction.webp">
+            <img :src="category.cover">
             <span>{{ formatTitle(category.title) }}</span>
           </div>
         </swiper-slide>
@@ -35,17 +41,21 @@ export default {
     categories: []
   }),
   async created () {
-    const { items: { data } } = await this.$axios.$get('/blog/posts/gallery?order_by=id')
-
-    this.categories = data.map(
-      (category) => {
-        return {
-          id: category.id,
-          title: category.title
-        }
-      })
+    await this.fetch()
   },
   methods: {
+    async fetch () {
+      const resp = await this.$axios.$get('/category?')
+      this.categories = resp.data.map(
+        (category) => {
+          return {
+            id: category.id,
+            title: category.title,
+            cover: category.cover.file_url
+          }
+        }
+      )
+    },
     formatTitle (title) {
       return title.length > 12 ? title.substr(0, 12) + '...' : title
     }
@@ -102,6 +112,9 @@ export default {
     top: 0; bottom: 0;
     background: rgba(0,0,0,.52);
     transition: all 300ms ease-out;
+  }
+  span {
+    z-index: 50;
   }
   &:hover {
     text-shadow: 0px 0px 5px rgba($color: black, $alpha: 1);

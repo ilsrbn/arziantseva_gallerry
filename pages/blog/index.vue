@@ -6,10 +6,11 @@
           <div class="post__images-wrapper" />
         </div>
         <div class="post__text">
+          <h1>{{ post.title }}</h1>
           <span class="post__date">
             {{ formatDate(new Date(post.updated_at)) }}
           </span>
-          <div class="post__content" v-html="post.raw_content" />
+          <div class="post__content" v-html="post.content" />
         </div>
       </div>
     </div>
@@ -22,16 +23,17 @@ export default {
   name: 'Blog',
   data: () => ({ posts: [] }),
   async created () {
-    await this.$router.push('/')
-    // try {
-    //   const { items: { data } } = await this.$axios.$get('/blog/posts/blog')
-    //   this.posts = data
-    // } catch (e) {
-    //   this.$toast.error(e)
-    //   console.log(e)
-    // }
+    await this.fetch()
   },
   methods: {
+    async fetch () {
+      try {
+        const resp = await this.$axios.$get('/post')
+        this.posts = resp.data
+      } catch (e) {
+        console.error({ e })
+      }
+    },
     formatDate (date) {
       return date.toLocaleDateString().replaceAll('/', '.')
     }

@@ -132,6 +132,9 @@ export default {
     -moz-box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
     box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
     overflow: hidden;
+    @media screen and (max-width: 980px) {
+      max-height: inherit;
+    }
   }
 
   &__date {

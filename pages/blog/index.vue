@@ -1,5 +1,9 @@
 <template>
-  <section class="blog-layout">
+  <section class="blog-layout" data-app>
+    <v-dialog v-model="dialog" max-width="800">
+      <img :src="selectedImage" />
+    </v-dialog>
+
     <div class="blog-layout__wrapper">
       <div
         v-for="(post, i) in posts"
@@ -10,7 +14,7 @@
         <div class="post__images">
           <swiper :options="options" ref="swiper">
             <swiper-slide v-for="image in post.featured_photos" :key="image">
-              <img :src="image" height="525" />
+              <img :src="image" height="525" @click="openModal(image)" />
             </swiper-slide>
           </swiper>
           <div class="post__images-navigation">
@@ -49,6 +53,9 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Blog",
   data: () => ({
+    dialog: false,
+    selectedImage: null,
+
     posts: [],
     options: {
       mousewheel: true,
@@ -67,6 +74,11 @@ export default {
     await this.fetch();
   },
   methods: {
+    openModal(img) {
+      console.log("handle");
+      this.dialog = true;
+      this.selectedImage = img;
+    },
     nextSlide(swiper) {
       const instance = swiper.$swiper;
       instance.slideNext();
@@ -159,8 +171,6 @@ export default {
       display: flex;
       justify-content: space-between;
 
-      z-index: 15;
-
       .navigation__button {
         width: 10%;
         display: flex;
@@ -173,17 +183,18 @@ export default {
         background: rgba(0, 0, 0, 0.2);
         opacity: 0;
 
+        z-index: 15;
         transition: all 150ms ease-in;
 
         &:hover {
           background: rgba(0, 0, 0, 0.4);
         }
       }
+    }
 
-      &:hover {
-        .navigation__button {
-          opacity: 1;
-        }
+    &:hover {
+      .navigation__button {
+        opacity: 1;
       }
     }
   }

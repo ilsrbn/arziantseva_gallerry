@@ -8,11 +8,27 @@
         :class="{ inverted: post.meta.inverted }"
       >
         <div class="post__images">
-          <swiper :options="options">
+          <swiper :options="options" ref="swiper">
             <swiper-slide v-for="image in post.featured_photos" :key="image">
               <img :src="image" height="525" />
             </swiper-slide>
           </swiper>
+          <div class="post__images-navigation">
+            <button
+              id="left"
+              class="navigation__button"
+              @click="prevSlide($refs.swiper[i])"
+            >
+              <i class="ri-arrow-drop-left-fill"></i>
+            </button>
+            <button
+              id="right"
+              class="navigation__button"
+              @click="nextSlide($refs.swiper[i])"
+            >
+              <i class="ri-arrow-drop-right-fill"></i>
+            </button>
+          </div>
         </div>
         <div class="post__text">
           <nuxt-link :to="post.meta.href">
@@ -51,6 +67,14 @@ export default {
     await this.fetch();
   },
   methods: {
+    nextSlide(swiper) {
+      const instance = swiper.$swiper;
+      instance.slideNext();
+    },
+    prevSlide(swiper) {
+      const instance = swiper.$swiper;
+      instance.slidePrev();
+    },
     async fetch() {
       try {
         const resp = await this.$axios.$get("/post");
@@ -119,6 +143,7 @@ export default {
     max-height: inherit;
     max-width: 100%;
     overflow: hidden;
+    position: relative;
 
     @media screen and (max-width: 980px) {
       display: none;
@@ -126,6 +151,40 @@ export default {
 
     img {
       max-height: inherit;
+    }
+
+    &-navigation {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+
+      z-index: 15;
+
+      .navigation__button {
+        width: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        font-size: 4rem;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        opacity: 0;
+
+        transition: all 150ms ease-in;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.4);
+        }
+      }
+
+      &:hover {
+        .navigation__button {
+          opacity: 1;
+        }
+      }
     }
   }
 

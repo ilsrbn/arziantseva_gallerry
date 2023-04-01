@@ -6,7 +6,11 @@
         :key="i"
         class="category"
         @click="$router.push(`/categories/${category.id}`)"
-        :style="{ backgroundImage: `url(${category.cover})` }"
+        :style="{
+          backgroundImage: `url(${
+            category.cover || '~/assets/images/under_construction.webp'
+          })`,
+        }"
       >
         <span>{{ formatTitle(category.title) }}</span>
       </div>
@@ -18,7 +22,9 @@
             class="category"
             @click="$router.push(`/categories/${category.id}`)"
           >
-            <img :src="category.cover" />
+            <img
+              :src="category.cover ?? '~/assets/images/under_construction.webp'"
+            />
             <span>{{ formatTitle(category.title) }}</span>
           </div>
         </swiper-slide>
@@ -37,6 +43,7 @@ export default {
       spaceBetween: 30,
       slidesPerView: 1.5,
       slidesPerGroup: 1,
+      height: "80%",
       loop: true,
     },
 
@@ -52,7 +59,7 @@ export default {
         return {
           id: category.id,
           title: category.title,
-          cover: category.cover.file_url,
+          cover: category.cover?.file_url,
         };
       });
     },
@@ -101,6 +108,7 @@ export default {
     background-position: center;
     background-size: cover;
     max-width: 100%;
+    height: 100%;
 
     transition: all 150ms ease-in;
     cursor: pointer;
@@ -151,10 +159,12 @@ export default {
 
   .category {
     position: relative;
+    height: 100%;
 
     img {
       object-fit: cover;
       max-width: 100%;
+      object-position: center;
     }
 
     span {
@@ -181,6 +191,7 @@ export default {
   .swiper-slide {
     opacity: 0.4;
     transition: all 300ms ease-in;
+    height: auto;
 
     &-active {
       opacity: 1;

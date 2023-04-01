@@ -1,5 +1,5 @@
 <template>
-  <header id="header" :class="{'mobile': menu}">
+  <header id="header" :class="{ mobile: menu }">
     <div class="header__container">
       <div class="header__left">
         <LogoComponent />
@@ -49,60 +49,58 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import LogoComponent from '@/components/Logo'
+import { mapGetters } from "vuex";
+import LogoComponent from "@/components/Logo";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Header',
+  name: "Header",
   components: { LogoComponent },
   data: () => ({
     links: [
       {
-        href: '/categories',
-        text: 'Categories'
+        href: "/categories",
+        text: "Categories",
       },
       {
-        href: '/blog',
-        text: 'Blog'
+        href: "/blog",
+        text: "Blog",
       },
       {
-        href: '/about-me',
-        text: 'About me'
-      }
+        href: "/about-me",
+        text: "About me",
+      },
     ],
     social: [
       {
-        icon: 'instagram',
-        href: 'https://www.instagram.com/solemn_void/'
+        icon: "instagram",
+        href: "https://www.instagram.com/solemn_void/",
       },
       {
-        icon: 'behance',
-        href: 'https://www.behance.net/kingbluelif7dc'
+        icon: "behance",
+        href: "https://www.behance.net/kingbluelif7dc",
       },
       {
-        icon: 'telegram',
-        href: 'https://t.me/niemonalisa'
-      }
-    ]
+        icon: "telegram",
+        href: "https://t.me/niemonalisa",
+      },
+    ],
   }),
   computed: {
     ...mapGetters({
-      menu: 'menu/open'
-    })
+      menu: "menu/open",
+    }),
   },
   watch: {
-    menu () {
+    menu() {
       if (this.menu) {
-        document.querySelector('body').classList.add('mobile-nav')
+        document.querySelector("body").classList.add("mobile-nav");
       } else {
-        document.querySelector('body').classList.remove('mobile-nav')
+        document.querySelector("body").classList.remove("mobile-nav");
       }
-    }
+    },
   },
-  methods: {
-
-  }
-}
+  methods: {},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -110,11 +108,13 @@ header {
   //background: var(--background-color);
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 5px 1rem black;
+
   //background: linear-gradient(to bottom, rgba(0, 0, 0, .85) 60%, rgba(0, 0, 0, 0));
   @media screen and(max-width: 998px) {
     background: rgba(0, 0, 0, 0.4);
     padding: 14px 0;
   }
+
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
   position: fixed;
@@ -126,10 +126,12 @@ header {
   max-width: 100vw;
   padding: 30px 0 30px;
   margin: 0;
-  z-index: 500;
+  z-index: 10;
+
   &.mobile {
     height: 100vh;
   }
+
   .header__container {
     width: 100%;
     max-width: calc(100% - 88px);
@@ -138,15 +140,18 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     @media screen and (max-width: 998px) {
       max-width: calc(100% - 32px);
     }
+
     &-mobile {
       height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+
       //padding-bottom: 24px;
       .header__right {
         @media screen and (max-width: 998px) {
@@ -155,14 +160,17 @@ header {
           height: 100%;
           justify-content: center;
           align-items: center;
+
           nav ul {
             flex-direction: column;
           }
+
           & > * {
             flex: 0 0 33.333%;
           }
         }
       }
+
       &-bottom {
         display: flex;
         justify-content: center;
@@ -171,35 +179,44 @@ header {
       }
     }
   }
+
   .header__left {
     margin-left: 165px;
+
     @media screen and (max-width: 1280px) {
       margin-left: 0;
     }
   }
+
   .header__right {
     display: flex;
     align-items: center;
     gap: 4vw;
+
     @media screen and (max-width: 998px) {
       display: none;
     }
+
     &-mobile {
       display: none;
+
       @media screen and (max-width: 998px) {
         display: flex;
       }
     }
   }
+
   nav ul {
     display: flex;
     align-items: center;
     gap: 90px;
   }
+
   .social {
     display: flex;
     align-items: center;
     gap: 14px;
+
     a {
       text-decoration: none;
     }

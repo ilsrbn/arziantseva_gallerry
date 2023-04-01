@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div data-app>
+    <v-dialog v-model="dialog" max-width="800">
+      <img :src="selectedImage" />
+    </v-dialog>
     <masonry
       class="masonry"
       :cols="{
@@ -27,6 +30,7 @@
         @contextmenu.prevent
         @drag.prevent
         @dragstart.prevent
+        @click="openModal(img)"
       />
     </masonry>
     <div class="observable" />
@@ -45,6 +49,8 @@ export default {
     total: 15,
 
     selectedSlide: -1,
+    dialog: false,
+    selectedImage: null,
   }),
   async fetch() {
     await this.fetch();
@@ -86,6 +92,10 @@ export default {
   },
 
   methods: {
+    openModal(img) {
+      this.dialog = true;
+      this.selectedImage = img.file_url;
+    },
     query() {
       return new URLSearchParams({
         page: this.page,

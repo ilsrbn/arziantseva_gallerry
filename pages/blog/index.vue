@@ -35,6 +35,7 @@ export default {
   data: () => ({
     posts: [],
     options: {
+      mousewheel: true,
       speed: 1000,
       spaceBetween: 25,
       height: 525,
@@ -99,9 +100,11 @@ export default {
   max-height: 525px;
   width: 100vw;
   width: 100svw;
+
   @media screen and (max-width: 980px) {
     grid-template-columns: 1fr;
   }
+
   &.inverted {
     .post__images {
       order: 2;
@@ -116,6 +119,7 @@ export default {
     max-height: inherit;
     max-width: 100%;
     overflow: hidden;
+
     @media screen and (max-width: 980px) {
       display: none;
     }
@@ -132,6 +136,7 @@ export default {
     -moz-box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
     box-shadow: inset 0px -10px 18px -5px rgba(0, 0, 0, 0.75);
     overflow: hidden;
+
     @media screen and (max-width: 980px) {
       max-height: inherit;
     }
@@ -153,6 +158,7 @@ export default {
     height: 50%;
     overflow: hidden;
     margin-top: calc(4em * 1.2);
+
     h1 {
       font-family: Raleway;
       font-size: 36px;
